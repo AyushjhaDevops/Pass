@@ -88,17 +88,30 @@ app.innerHTML = `
             <span>Entropy</span>
             <strong id="entropyValue">0 bits</strong>
           </div>
-
+          <div class="analysis-item">
+            <span>Character pool</span>
+            <strong id="poolSizeValue">0</strong>
+          </div>
+          <div class="analysis-item">
+            <span>Search space</span>
+            <strong id="searchSpaceValue">0</strong>
+          </div>
+          <div class="analysis-item">
+            <span>Estimated crack time</span>
+            <strong id="crackTimeValue">Instant</strong>
+          </div>
           <div class="analysis-item">
             <span>Repeated characters</span>
             <strong id="repeatedValue">No</strong>
           </div>
-
+          <div class="analysis-item">
+            <span>Repeated blocks</span>
+            <strong id="repeatedBlocksValue">No</strong>
+          </div>
           <div class="analysis-item">
             <span>Sequential pattern</span>
             <strong id="sequenceValue">No</strong>
           </div>
-
           <div class="analysis-item">
             <span>Keyboard pattern</span>
             <strong id="keyboardValue">No</strong>
@@ -108,8 +121,23 @@ app.innerHTML = `
             <span>Common password</span>
             <strong id="commonValue">No</strong>
           </div>
+          <div class="analysis-item">
+            <span>Leetspeak</span>
+            <strong id="leetspeakValue">No</strong>
+          </div>
+          <div class="analysis-item">
+            <span>Year detected</span>
+            <strong id="yearValue">No</strong>
+          </div>
+          <div class="analysis-item">
+            <span>Date detected</span>
+            <strong id="dateValue">No</strong>
+          </div>
+          <div class="analysis-item">
+            <span>Common fragments</span>
+            <strong id="fragmentValue">None</strong>
+          </div>
         </div>
-
         <div class="suggestions">
           <h3>Security Recommendations</h3>
           <ul id="suggestionList"></ul>
@@ -263,6 +291,14 @@ const commonValue =
 
 const suggestionList =
   document.querySelector("#suggestionList");
+const searchSpaceValue = document.querySelector("#searchSpaceValue");
+const poolSizeValue = document.querySelector("#poolSizeValue");
+const crackTimeValue = document.querySelector("#crackTimeValue");
+const leetspeakValue = document.querySelector("#leetspeakValue");
+const repeatedBlocksValue = document.querySelector("#repeatedBlocksValue");
+const yearValue = document.querySelector("#yearValue");
+const dateValue = document.querySelector("#dateValue");
+const fragmentValue = document.querySelector("#fragmentValue");
 
 function updateRequirement(element, passed, text) {
   element.textContent = `${passed ? "✓" : "○"} ${text}`;
@@ -320,18 +356,30 @@ function updateStrengthUI(result) {
   entropyValue.textContent =
   `${result.entropy.toFixed(1)} bits`;
 
+  poolSizeValue.textContent = String(result.characterPoolSize);
+
+  searchSpaceValue.textContent = 
+    result.searchSpace > 0
+      ? result.searchSpace.toExponential(2)
+      : "0";
+  crackTimeValue.textContent = result.crackTime.label;
+
   repeatedValue.textContent =
-    result.checks.repeatedCharacters
+    result.patterns.repeatedCharacters
       ? "Detected"
       : "No";
-
+  repeatedBlocksValue.textContent =
+    result.patterns.repeatedBlocks
+      ? "Detected"
+      : "No";
+  
   sequenceValue.textContent =
-    result.checks.sequentialPattern
+    result.patterns.sequentialPattern
       ? "Detected"
       : "No";
 
   keyboardValue.textContent =
-    result.checks.keyboardPattern
+    result.patterns.keyboard
       ? "Detected"
       : "No";
 
@@ -339,6 +387,25 @@ function updateStrengthUI(result) {
     result.checks.commonPassword
       ? "Detected"
       : "No";
+  leetspeakValue.textContent =
+    result.patterns.leetspeak
+      ? "Detected"
+      : "No";
+
+  yearValue.textContent =
+    result.patterns.year
+      ? "Detected"
+      : "No";
+
+  dateValue.textContent =
+    result.patterns.date
+      ? "Detected"
+      : "No";
+
+  fragmentValue.textContent =
+    result.patterns.commonFragments.length > 0
+      ? result.patterns.commonFragments.join(", ")
+      : "None";
 
   suggestionList.innerHTML = "";
 

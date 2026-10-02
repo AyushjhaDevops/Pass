@@ -1,7 +1,9 @@
 import "./styles/main.css";
 import "./styles/responsive.css";
 import "./styles/themes.css";
-
+import {
+  generatePassword,
+} from "./modules/generator.js";
 const app = document.querySelector("#app");
 
 app.innerHTML = `
@@ -156,3 +158,93 @@ app.innerHTML = `
 `;
 
 console.log("Password Security Toolkit initialized.");
+const passwordLength =
+  document.querySelector("#passwordLength");
+
+const lengthValue =
+  document.querySelector("#lengthValue");
+
+const generatedPassword =
+  document.querySelector("#generatedPassword");
+
+const generateButton =
+  document.querySelector("#generatePassword");
+
+const copyButton =
+  document.querySelector("#copyPassword");
+
+const uppercaseOption =
+  document.querySelector("#uppercaseOption");
+
+const lowercaseOption =
+  document.querySelector("#lowercaseOption");
+
+const numbersOption =
+  document.querySelector("#numbersOption");
+
+const symbolsOption =
+  document.querySelector("#symbolsOption");
+
+
+function generateFromUI() {
+  try {
+    const password = generatePassword({
+      length: Number(passwordLength.value),
+
+      uppercase: uppercaseOption.checked,
+      lowercase: lowercaseOption.checked,
+      numbers: numbersOption.checked,
+      symbols: symbolsOption.checked,
+
+      minimumUppercase: uppercaseOption.checked ? 1 : 0,
+      minimumLowercase: lowercaseOption.checked ? 1 : 0,
+      minimumNumbers: numbersOption.checked ? 1 : 0,
+      minimumSymbols: symbolsOption.checked ? 1 : 0,
+
+      allowDuplicates: true,
+    });
+
+    generatedPassword.value = password;
+  } catch (error) {
+    console.error("Password generation failed:", error);
+
+    generatedPassword.value = "";
+
+    window.alert(error.message);
+  }
+}
+
+
+passwordLength.addEventListener("input", () => {
+  lengthValue.textContent = passwordLength.value;
+});
+
+
+generateButton.addEventListener(
+  "click",
+  generateFromUI
+);
+
+
+generateFromUI();
+copyButton.addEventListener("click", async () => {
+  const password = generatedPassword.value;
+
+  if (!password) {
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(password);
+
+    const originalText = copyButton.textContent;
+
+    copyButton.textContent = "✓";
+
+    setTimeout(() => {
+      copyButton.textContent = originalText;
+    }, 1200);
+  } catch (error) {
+    console.error("Clipboard operation failed:", error);
+  }
+});

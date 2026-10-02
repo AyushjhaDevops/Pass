@@ -1,0 +1,29 @@
+@media (max-width: 800px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .app {
+    width: min(100% - 20px, 700px);
+    padding-top: 24px;
+  }
+
+  .app-header {
+    flex-direction: column;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .options {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

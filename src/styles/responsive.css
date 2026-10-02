@@ -1,29 +1,77 @@
-@media (max-width: 800px) {
-  .dashboard {
+
+@media (max-width: 1000px) {
+  .dashboard-grid {
     grid-template-columns: 1fr;
+  }
+
+  .passphrase-card {
+    grid-column: auto;
   }
 }
 
-@media (max-width: 500px) {
-  .app {
-    width: min(100% - 20px, 700px);
-    padding-top: 24px;
+@media (max-width: 700px) {
+  .container,
+  .header-content,
+  .footer-content {
+    width: min(100% - 20px, 1400px);
   }
 
-  .app-header {
-    flex-direction: column;
+  .container {
+    padding-top: 20px;
   }
 
   .card {
-    padding: 20px;
+    padding: 18px;
   }
 
-  .options {
+  .header-content {
+    min-height: 68px;
+  }
+
+  .brand h1 {
+    font-size: 1.05rem;
+  }
+
+  .brand p {
+    display: none;
+  }
+
+  .checks-grid,
+  .metrics-grid,
+  .pattern-grid,
+  .security-grid {
     grid-template-columns: 1fr;
   }
 
-  footer {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .passphrase-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
     flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    gap: 10px;
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .security-notice {
+    padding: 13px;
   }
 }

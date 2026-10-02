@@ -1,17 +1,92 @@
-:root {
-  --background: #020617;
-  --surface: #0f172a;
-  --border: #1e293b;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --primary: #0284c7;
-}
+:root[data-theme="light"] {
+  color-scheme: light;
 
-[data-theme="light"] {
   --background: #f8fafc;
   --surface: #ffffff;
-  --border: #cbd5e1;
+  --surface-secondary: #f1f5f9;
   --text: #0f172a;
-  --muted: #475569;
-  --primary: #0369a1;
+  --text-secondary: #475569;
+  --border-color: #cbd5e1;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #020617;
+  --surface: #0f172a;
+  --surface-secondary: #111827;
+  --text: #e5e7eb;
+  --text-secondary: #94a3b8;
+  --border-color: #1e293b;
+}
+
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(
+      circle at top,
+      #dbeafe 0,
+      #f8fafc 45%
+    );
+
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .app-header {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #e2e8f0;
+}
+
+:root[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #e2e8f0;
+  box-shadow:
+    0 15px 40px rgba(15, 23, 42, 0.08);
+}
+
+:root[data-theme="light"] .brand-icon,
+:root[data-theme="light"] .card-icon,
+:root[data-theme="light"] .icon-button,
+:root[data-theme="light"] .input-action {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:root[data-theme="light"] input[type="password"],
+:root[data-theme="light"] input[type="text"],
+:root[data-theme="light"] select,
+:root[data-theme="light"] .generated-password {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .check-item,
+:root[data-theme="light"] .pattern-item,
+:root[data-theme="light"] .metric,
+:root[data-theme="light"] .checkbox,
+:root[data-theme="light"] .security-item,
+:root[data-theme="light"] .generator-info {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+:root[data-theme="light"] .card-header p,
+:root[data-theme="light"] .security-notice p,
+:root[data-theme="light"] .security-item p,
+:root[data-theme="light"] .suggestions-list,
+:root[data-theme="light"] .brand p {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .section-title,
+:root[data-theme="light"] .pattern-item strong,
+:root[data-theme="light"] .metric strong,
+:root[data-theme="light"] .security-item h3 {
+  color: #1e293b;
+}
+
+:root[data-theme="light"] .app-footer {
+  background: #ffffff;
+  border-color: #e2e8f0;
 }

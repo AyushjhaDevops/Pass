@@ -10,20 +10,1016 @@
 
     <meta
       name="description"
-      content="Privacy-first password generation and security analysis toolkit."
+      content="Password Security Toolkit - Generate, analyze, and evaluate password security locally."
     />
 
     <meta
       name="theme-color"
-      content="#020617"
+      content="#0f172a"
     />
 
     <title>Password Security Toolkit</title>
   </head>
 
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <!-- ============================================================
+           HEADER
+           ============================================================ -->
 
-    <script type="module" src="/src/main.js"></script>
+      <header class="app-header">
+        <div class="header-content">
+          <div class="brand">
+            <div class="brand-icon" aria-hidden="true">
+              🔐
+            </div>
+
+            <div>
+              <h1>Password Security Toolkit</h1>
+
+              <p>
+                Generate and analyze strong passwords securely in your browser.
+              </p>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <button
+              id="themeToggle"
+              class="icon-button"
+              type="button"
+              aria-label="Toggle theme"
+              title="Toggle theme"
+            >
+              🌙
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============================================================
+           MAIN CONTENT
+           ============================================================ -->
+
+      <main class="container">
+
+        <!-- ==========================================================
+             SECURITY NOTICE
+             ========================================================== -->
+
+        <section class="security-notice" aria-label="Privacy notice">
+          <div class="security-notice-icon" aria-hidden="true">
+            🛡️
+          </div>
+
+          <div>
+            <strong>Privacy-first security</strong>
+
+            <p>
+              Passwords and passphrases are processed locally in your browser.
+              They are not sent to a server by this application.
+            </p>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             DASHBOARD
+             ========================================================== -->
+
+        <section class="dashboard-grid">
+
+          <!-- ========================================================
+               PASSWORD CHECKER
+               ======================================================== -->
+
+          <section class="card" id="passwordChecker">
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">Security Analysis</span>
+
+                <h2>Password Checker</h2>
+
+                <p>
+                  Analyze a password for common weaknesses and security
+                  characteristics.
+                </p>
+              </div>
+
+              <div class="card-icon" aria-hidden="true">
+                🔎
+              </div>
+            </div>
+
+            <!-- Password Input -->
+
+            <div class="input-group">
+              <label for="passwordInput">
+                Password
+              </label>
+
+              <div class="password-input-wrapper">
+                <input
+                  id="passwordInput"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="Enter a password to analyze"
+                  aria-describedby="passwordInputHelp"
+                />
+
+                <button
+                  id="togglePasswordVisibility"
+                  class="input-action"
+                  type="button"
+                  aria-label="Show password"
+                  title="Show password"
+                >
+                  👁️
+                </button>
+              </div>
+
+              <small id="passwordInputHelp">
+                Analysis is performed locally in your browser.
+              </small>
+            </div>
+
+            <!-- Strength -->
+
+            <div class="strength-section">
+              <div class="strength-header">
+                <span>Strength</span>
+
+                <strong id="strengthLabel">
+                  Not analyzed
+                </strong>
+              </div>
+
+              <div
+                class="strength-bar"
+                role="progressbar"
+                aria-label="Password strength"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <div
+                  id="strengthBar"
+                  class="strength-bar-fill"
+                  style="width: 0%"
+                ></div>
+              </div>
+
+              <div class="score-display">
+                Score:
+                <strong id="scoreValue">0</strong>/100
+              </div>
+            </div>
+
+            <!-- Basic Checks -->
+
+            <div class="analysis-section">
+              <div class="section-title">
+                Basic Requirements
+              </div>
+
+              <div class="checks-grid">
+
+                <div class="check-item" id="lengthCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    At least 12 characters
+                  </span>
+                </div>
+
+                <div class="check-item" id="uppercaseCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    Uppercase letter
+                  </span>
+                </div>
+
+                <div class="check-item" id="lowercaseCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    Lowercase letter
+                  </span>
+                </div>
+
+                <div class="check-item" id="numberCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    Number
+                  </span>
+                </div>
+
+                <div class="check-item" id="specialCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    Special character
+                  </span>
+                </div>
+
+                <div class="check-item" id="commonPasswordCheck">
+                  <span class="check-icon">○</span>
+
+                  <span>
+                    Not a common password
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Advanced Analysis -->
+
+            <div class="analysis-section">
+              <div class="section-title">
+                Advanced Analysis
+              </div>
+
+              <div class="metrics-grid">
+
+                <div class="metric">
+                  <span class="metric-label">
+                    Entropy
+                  </span>
+
+                  <strong id="entropyValue">
+                    0 bits
+                  </strong>
+                </div>
+
+                <div class="metric">
+                  <span class="metric-label">
+                    Character Pool
+                  </span>
+
+                  <strong id="poolSizeValue">
+                    0
+                  </strong>
+                </div>
+
+                <div class="metric">
+                  <span class="metric-label">
+                    Search Space
+                  </span>
+
+                  <strong id="searchSpaceValue">
+                    0
+                  </strong>
+                </div>
+
+                <div class="metric">
+                  <span class="metric-label">
+                    Estimated Crack Time
+                  </span>
+
+                  <strong id="crackTimeValue">
+                    Instant
+                  </strong>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Pattern Analysis -->
+
+            <div class="analysis-section">
+              <div class="section-title">
+                Pattern Analysis
+              </div>
+
+              <div class="pattern-grid">
+
+                <div class="pattern-item">
+                  <span>
+                    Repeated Characters
+                  </span>
+
+                  <strong id="repeatedCharactersValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Repeated Blocks
+                  </span>
+
+                  <strong id="repeatedBlocksValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Sequential Pattern
+                  </span>
+
+                  <strong id="sequentialValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Keyboard Pattern
+                  </span>
+
+                  <strong id="keyboardValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Leetspeak
+                  </span>
+
+                  <strong id="leetspeakValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Year
+                  </span>
+
+                  <strong id="yearValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Date
+                  </span>
+
+                  <strong id="dateValue">
+                    No
+                  </strong>
+                </div>
+
+                <div class="pattern-item">
+                  <span>
+                    Common Fragment
+                  </span>
+
+                  <strong id="fragmentValue">
+                    No
+                  </strong>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Suggestions -->
+
+            <div class="analysis-section">
+              <div class="section-title">
+                Recommendations
+              </div>
+
+              <ul
+                id="suggestionsList"
+                class="suggestions-list"
+              >
+                <li>
+                  Enter a password to begin analysis.
+                </li>
+              </ul>
+            </div>
+          </section>
+
+
+          <!-- ========================================================
+               PASSWORD GENERATOR
+               ======================================================== -->
+
+          <section class="card" id="passwordGenerator">
+
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">Secure Generation</span>
+
+                <h2>Password Generator</h2>
+
+                <p>
+                  Generate cryptographically secure random passwords.
+                </p>
+              </div>
+
+              <div class="card-icon" aria-hidden="true">
+                ⚙️
+              </div>
+            </div>
+
+            <!-- Generated Password -->
+
+            <div class="result-box">
+              <label for="generatedPassword">
+                Generated Password
+              </label>
+
+              <div class="generated-password-wrapper">
+
+                <output
+                  id="generatedPassword"
+                  class="generated-password"
+                  aria-live="polite"
+                >
+                  Click generate to create a password
+                </output>
+
+                <button
+                  id="copyPassword"
+                  class="input-action"
+                  type="button"
+                  aria-label="Copy generated password"
+                  title="Copy password"
+                >
+                  📋
+                </button>
+
+              </div>
+            </div>
+
+            <!-- Length -->
+
+            <div class="control-group">
+
+              <div class="control-header">
+                <label for="passwordLength">
+                  Password Length
+                </label>
+
+                <strong id="passwordLengthValue">
+                  16
+                </strong>
+              </div>
+
+              <input
+                id="passwordLength"
+                type="range"
+                min="8"
+                max="128"
+                value="16"
+                step="1"
+              />
+
+              <div class="range-labels">
+                <span>8</span>
+                <span>128</span>
+              </div>
+
+            </div>
+
+            <!-- Character Options -->
+
+            <div class="control-group">
+
+              <div class="control-header">
+                <span>
+                  Character Sets
+                </span>
+              </div>
+
+              <div class="options-grid">
+
+                <label class="checkbox">
+                  <input
+                    id="includeUppercase"
+                    type="checkbox"
+                    checked
+                  />
+
+                  <span>
+                    Uppercase
+                  </span>
+                </label>
+
+                <label class="checkbox">
+                  <input
+                    id="includeLowercase"
+                    type="checkbox"
+                    checked
+                  />
+
+                  <span>
+                    Lowercase
+                  </span>
+                </label>
+
+                <label class="checkbox">
+                  <input
+                    id="includeNumbers"
+                    type="checkbox"
+                    checked
+                  />
+
+                  <span>
+                    Numbers
+                  </span>
+                </label>
+
+                <label class="checkbox">
+                  <input
+                    id="includeSymbols"
+                    type="checkbox"
+                    checked
+                  />
+
+                  <span>
+                    Symbols
+                  </span>
+                </label>
+
+              </div>
+            </div>
+
+            <!-- Generator Options -->
+
+            <div class="control-group">
+
+              <div class="control-header">
+                <span>
+                  Additional Options
+                </span>
+              </div>
+
+              <div class="options-grid">
+
+                <label class="checkbox">
+                  <input
+                    id="excludeSimilar"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Exclude similar characters
+                  </span>
+                </label>
+
+                <label class="checkbox">
+                  <input
+                    id="excludeAmbiguous"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Exclude ambiguous characters
+                  </span>
+                </label>
+
+                <label class="checkbox">
+                  <input
+                    id="noDuplicates"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    No duplicate characters
+                  </span>
+                </label>
+
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+
+            <div class="button-row">
+
+              <button
+                id="generatePassword"
+                class="primary-button"
+                type="button"
+              >
+                Generate Password
+              </button>
+
+            </div>
+
+          </section>
+
+
+          <!-- ========================================================
+               PASSPHRASE GENERATOR — PHASE 5
+               ======================================================== -->
+
+          <section
+            class="card passphrase-card"
+            id="passphraseGenerator"
+          >
+
+            <div class="card-header">
+
+              <div>
+                <span class="eyebrow">
+                  Phase 5
+                </span>
+
+                <h2>
+                  Passphrase Generator
+                </h2>
+
+                <p>
+                  Generate memorable passphrases using cryptographically
+                  secure randomness.
+                </p>
+              </div>
+
+              <div
+                class="card-icon"
+                aria-hidden="true"
+              >
+                🧩
+              </div>
+
+            </div>
+
+            <!-- Passphrase Result -->
+
+            <div class="result-box">
+
+              <label for="passphraseOutput">
+                Generated Passphrase
+              </label>
+
+              <div class="generated-password-wrapper">
+
+                <output
+                  id="passphraseOutput"
+                  class="generated-password"
+                  aria-live="polite"
+                >
+                  Click generate to create a passphrase
+                </output>
+
+                <button
+                  id="copyPassphrase"
+                  class="input-action"
+                  type="button"
+                  aria-label="Copy generated passphrase"
+                  title="Copy passphrase"
+                >
+                  📋
+                </button>
+
+              </div>
+
+            </div>
+
+            <!-- Word Count -->
+
+            <div class="control-group">
+
+              <div class="control-header">
+
+                <label for="passphraseWordCount">
+                  Number of Words
+                </label>
+
+                <strong id="passphraseWordCountValue">
+                  5
+                </strong>
+
+              </div>
+
+              <input
+                id="passphraseWordCount"
+                type="range"
+                min="4"
+                max="12"
+                value="5"
+                step="1"
+              />
+
+              <div class="range-labels">
+                <span>4</span>
+                <span>12</span>
+              </div>
+
+            </div>
+
+            <!-- Separator -->
+
+            <div class="control-group">
+
+              <label for="passphraseSeparator">
+                Word Separator
+              </label>
+
+              <select
+                id="passphraseSeparator"
+                class="select-input"
+              >
+                <option value="-">
+                  Hyphen (-)
+                </option>
+
+                <option value="_">
+                  Underscore (_)
+                </option>
+
+                <option value=".">
+                  Dot (.)
+                </option>
+
+                <option value=" ">
+                  Space
+                </option>
+              </select>
+
+            </div>
+
+            <!-- Passphrase Options -->
+
+            <div class="control-group">
+
+              <div class="control-header">
+                <span>
+                  Additional Options
+                </span>
+              </div>
+
+              <div class="options-grid">
+
+                <label class="checkbox">
+
+                  <input
+                    id="passphraseCapitalize"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Capitalize words
+                  </span>
+
+                </label>
+
+                <label class="checkbox">
+
+                  <input
+                    id="passphraseNumber"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Add number
+                  </span>
+
+                </label>
+
+                <label class="checkbox">
+
+                  <input
+                    id="passphraseSymbol"
+                    type="checkbox"
+                  />
+
+                  <span>
+                    Add symbol
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+            <!-- Passphrase Metrics -->
+
+            <div class="passphrase-metrics">
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Estimated Entropy
+                </span>
+
+                <strong id="passphraseEntropy">
+                  0 bits
+                </strong>
+
+              </div>
+
+              <div class="metric">
+
+                <span class="metric-label">
+                  Words
+                </span>
+
+                <strong id="passphraseWords">
+                  5
+                </strong>
+
+              </div>
+
+            </div>
+
+            <!-- Buttons -->
+
+            <div class="button-row">
+
+              <button
+                id="generatePassphrase"
+                class="primary-button"
+                type="button"
+              >
+                Generate Passphrase
+              </button>
+
+            </div>
+
+            <div class="generator-info">
+
+              <span aria-hidden="true">
+                🔐
+              </span>
+
+              <p>
+                Passphrases are generated locally using the browser's
+                cryptographically secure random number generator.
+              </p>
+
+            </div>
+
+          </section>
+
+        </section>
+
+
+        <!-- ==========================================================
+             SECURITY INFORMATION
+             ========================================================== -->
+
+        <section class="card security-information">
+
+          <div class="card-header">
+
+            <div>
+              <span class="eyebrow">
+                Security
+              </span>
+
+              <h2>
+                How Your Data Is Handled
+              </h2>
+
+              <p>
+                This toolkit is designed with a privacy-first architecture.
+              </p>
+            </div>
+
+            <div
+              class="card-icon"
+              aria-hidden="true"
+            >
+              🛡️
+            </div>
+
+          </div>
+
+          <div class="security-grid">
+
+            <div class="security-item">
+
+              <div class="security-item-icon">
+                🔒
+              </div>
+
+              <div>
+
+                <h3>
+                  Local Processing
+                </h3>
+
+                <p>
+                  Password analysis and generation happen directly inside
+                  your browser.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="security-item">
+
+              <div class="security-item-icon">
+                🎲
+              </div>
+
+              <div>
+
+                <h3>
+                  Secure Randomness
+                </h3>
+
+                <p>
+                  Password and passphrase generation uses the Web Crypto API
+                  rather than predictable pseudo-random functions.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="security-item">
+
+              <div class="security-item-icon">
+                🚫
+              </div>
+
+              <div>
+
+                <h3>
+                  No Plaintext Transmission
+                </h3>
+
+                <p>
+                  Generated credentials are not transmitted to a backend by
+                  this client-side application.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="security-item">
+
+              <div class="security-item-icon">
+                🌐
+              </div>
+
+              <div>
+
+                <h3>
+                  Future Breach Protection
+                </h3>
+
+                <p>
+                  Future breach checking can use privacy-preserving
+                  k-anonymity so the complete password is never transmitted.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+
+      <!-- ============================================================
+           FOOTER
+           ============================================================ -->
+
+      <footer class="app-footer">
+
+        <div class="footer-content">
+
+          <p>
+            Password Security Toolkit
+          </p>
+
+          <p>
+            Client-side security toolkit • Privacy first
+          </p>
+
+        </div>
+
+      </footer>
+
+
+      <!-- ============================================================
+           NOTIFICATION CONTAINER
+           ============================================================ -->
+
+      <div
+        id="notificationContainer"
+        class="notification-container"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+
+    </div>
+
+    <!-- ==============================================================
+         APPLICATION ENTRY POINT
+         ============================================================== -->
+
+    <script
+      type="module"
+      src="/src/main.js"
+    ></script>
+
   </body>
 </html>

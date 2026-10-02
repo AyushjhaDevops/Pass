@@ -216,3 +216,34 @@ footer {
   color: #64748b;
   font-size: 0.85rem;
 }
+#strengthProgress {
+  background: #64748b;
+}
+
+#strengthProgress[data-strength="very-weak"] {
+  background: #ef4444;
+}
+
+#strengthProgress[data-strength="weak"] {
+  background: #f97316;
+}
+
+#strengthProgress[data-strength="fair"] {
+  background: #eab308;
+}
+
+#strengthProgress[data-strength="strong"] {
+  background: #22c55e;
+}
+
+#strengthProgress[data-strength="very-strong"] {
+  background: #14b8a6;
+}
+
+.requirements [data-valid="true"] {
+  color: #22c55e;
+}
+
+.requirements [data-valid="false"] {
+  color: #94a3b8;
+}

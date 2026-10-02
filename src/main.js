@@ -4,6 +4,9 @@ import "./styles/themes.css";
 import {
   generatePassword,
 } from "./modules/generator.js";
+import {
+  analyzePassword,
+} from "./modules/checker.js";
 const app = document.querySelector("#app");
 
 app.innerHTML = `
@@ -79,6 +82,37 @@ app.innerHTML = `
           <div id="lowercaseCheck">○ Lowercase letter</div>
           <div id="numberCheck">○ Number</div>
           <div id="specialCheck">○ Special character</div>
+        </div>
+        <div class="analysis-summary">
+          <div class="analysis-item">
+            <span>Entropy</span>
+            <strong id="entropyValue">0 bits</strong>
+          </div>
+
+          <div class="analysis-item">
+            <span>Repeated characters</span>
+            <strong id="repeatedValue">No</strong>
+          </div>
+
+          <div class="analysis-item">
+            <span>Sequential pattern</span>
+            <strong id="sequenceValue">No</strong>
+          </div>
+
+          <div class="analysis-item">
+            <span>Keyboard pattern</span>
+            <strong id="keyboardValue">No</strong>
+          </div>
+
+          <div class="analysis-item">
+            <span>Common password</span>
+            <strong id="commonValue">No</strong>
+          </div>
+        </div>
+
+        <div class="suggestions">
+          <h3>Security Recommendations</h3>
+          <ul id="suggestionList"></ul>
         </div>
       </article>
 
@@ -185,7 +219,151 @@ const numbersOption =
 const symbolsOption =
   document.querySelector("#symbolsOption");
 
+const passwordInput =
+  document.querySelector("#passwordInput");
 
+const strengthText =
+  document.querySelector("#strengthText");
+
+const strengthProgress =
+  document.querySelector("#strengthProgress");
+
+const strengthBar =
+  document.querySelector(".strength-bar");
+
+const lengthCheck =
+  document.querySelector("#lengthCheck");
+
+const uppercaseCheck =
+  document.querySelector("#uppercaseCheck");
+
+const lowercaseCheck =
+  document.querySelector("#lowercaseCheck");
+
+const numberCheck =
+  document.querySelector("#numberCheck");
+
+const specialCheck =
+  document.querySelector("#specialCheck");
+
+const entropyValue =
+  document.querySelector("#entropyValue");
+
+const repeatedValue =
+  document.querySelector("#repeatedValue");
+
+const sequenceValue =
+  document.querySelector("#sequenceValue");
+
+const keyboardValue =
+  document.querySelector("#keyboardValue");
+
+const commonValue =
+  document.querySelector("#commonValue");
+
+const suggestionList =
+  document.querySelector("#suggestionList");
+
+function updateRequirement(element, passed, text) {
+  element.textContent = `${passed ? "✓" : "○"} ${text}`;
+
+  element.dataset.valid = passed ? "true" : "false";
+}
+
+
+function updateStrengthUI(result) {
+  strengthText.textContent = result.strength;
+
+  strengthProgress.style.width =
+    `${result.score}%`;
+
+  const strengthClass = result.strength
+    .toLowerCase()
+    .replaceAll(" ", "-");
+
+  strengthProgress.dataset.strength =
+    strengthClass;
+
+  strengthBar.setAttribute(
+    "aria-valuenow",
+    String(result.score)
+  );
+  updateRequirement(
+    lengthCheck,
+    result.checks.length >= 12,
+    "At least 12 characters"
+  );
+
+  updateRequirement(
+    uppercaseCheck,
+    result.checks.hasUppercase,
+    "Uppercase letter"
+  );
+
+  updateRequirement(
+    lowercaseCheck,
+    result.checks.hasLowercase,
+    "Lowercase letter"
+  );
+
+  updateRequirement(
+    numberCheck,
+    result.checks.hasNumber,
+    "Number"
+  );
+
+  updateRequirement(
+    specialCheck,
+    result.checks.hasSpecial,
+    "Special character"
+  );
+  entropyValue.textContent =
+  `${result.entropy.toFixed(1)} bits`;
+
+  repeatedValue.textContent =
+    result.checks.repeatedCharacters
+      ? "Detected"
+      : "No";
+
+  sequenceValue.textContent =
+    result.checks.sequentialPattern
+      ? "Detected"
+      : "No";
+
+  keyboardValue.textContent =
+    result.checks.keyboardPattern
+      ? "Detected"
+      : "No";
+
+  commonValue.textContent =
+    result.checks.commonPassword
+      ? "Detected"
+      : "No";
+
+  suggestionList.innerHTML = "";
+
+  for (const suggestion of result.suggestions) {
+    const item = document.createElement("li");
+    item.textContent = suggestion;
+
+    suggestionList.appendChild(item);
+  }
+}
+
+
+function checkPassword() {
+  const password = passwordInput.value;
+
+  const result = analyzePassword(password);
+
+  updateStrengthUI(result);
+}
+
+
+passwordInput.addEventListener(
+  "input",
+  checkPassword
+);
 function generateFromUI() {
   try {
     const password = generatePassword({

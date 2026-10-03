@@ -1,0 +1,159 @@
+.pin-generator-card {
+  margin-top: 2rem;
+}
+
+.pin-output-wrapper {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.pin-output {
+  flex: 1;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color, #334155);
+  border-radius: 0.75rem;
+  background: var(--input-background, #0f172a);
+  color: var(--text-primary, #f8fafc);
+  font-family: "Courier New", monospace;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.35rem;
+  text-align: center;
+}
+
+.pin-controls {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.pin-length-control {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pin-length-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pin-length-value {
+  font-weight: 700;
+}
+
+.pin-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.pin-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color, #334155);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.pin-option input {
+  width: auto;
+}
+
+.pin-analysis {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pin-analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.pin-stat {
+  padding: 1rem;
+  border: 1px solid var(--border-color, #334155);
+  border-radius: 0.75rem;
+  background: var(--card-secondary, rgba(255, 255, 255, 0.03));
+}
+
+.pin-stat-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.8rem;
+}
+
+.pin-stat-value {
+  font-weight: 700;
+}
+
+.pin-strength {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--card-secondary, rgba(255, 255, 255, 0.03));
+}
+
+.pin-strength-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.pin-suggestions {
+  margin-top: 1rem;
+}
+
+.pin-suggestions ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.pin-suggestions li {
+  margin-bottom: 0.5rem;
+}
+
+.pin-action-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .pin-analysis-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pin-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pin-output-wrapper {
+    flex-direction: column;
+  }
+
+  .pin-output {
+    width: 100%;
+  }
+
+  .pin-action-row {
+    flex-direction: column;
+  }
+
+  .pin-analysis-grid {
+    grid-template-columns: 1fr;
+  }
+}

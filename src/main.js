@@ -1,7 +1,11 @@
 import "./styles/main.css";
 import "./styles/responsive.css";
 import "./styles/themes.css";
+import "./styles/pin.css";
 
+import {
+  initializePinUI,
+} from "./ui/pin-ui.js";
 
 import {
   analyzePassword,
@@ -41,177 +45,174 @@ initializeTheme();
 // PASSWORD CHECKER ELEMENTS
 // ============================================================
 
-const passwordInput = document.querySelector("#passwordInput");
-const togglePasswordVisibility = document.querySelector(
-  "#togglePasswordVisibility",
-);
+const passwordInput =
+  document.querySelector("#passwordInput");
 
-const strengthLabel = document.querySelector("#strengthLabel");
-const strengthBar = document.querySelector("#strengthBar");
-const scoreValue = document.querySelector("#scoreValue");
+const togglePasswordVisibility =
+  document.querySelector("#togglePasswordVisibility");
 
-const entropyValue = document.querySelector("#entropyValue");
-const poolSizeValue = document.querySelector("#poolSizeValue");
-const searchSpaceValue = document.querySelector("#searchSpaceValue");
-const crackTimeValue = document.querySelector("#crackTimeValue");
+const strengthLabel =
+  document.querySelector("#strengthLabel");
 
-const suggestionsList = document.querySelector("#suggestionsList");
+const strengthBar =
+  document.querySelector("#strengthBar");
+
+const scoreValue =
+  document.querySelector("#scoreValue");
+
+const entropyValue =
+  document.querySelector("#entropyValue");
+
+const poolSizeValue =
+  document.querySelector("#poolSizeValue");
+
+const searchSpaceValue =
+  document.querySelector("#searchSpaceValue");
+
+const crackTimeValue =
+  document.querySelector("#crackTimeValue");
+
+const suggestionsList =
+  document.querySelector("#suggestionsList");
 
 
-// Basic checks
+// ============================================================
+// BASIC PASSWORD CHECKS
+// ============================================================
 
-const lengthCheck = document.querySelector("#lengthCheck");
-const uppercaseCheck = document.querySelector("#uppercaseCheck");
-const lowercaseCheck = document.querySelector("#lowercaseCheck");
-const numberCheck = document.querySelector("#numberCheck");
-const specialCheck = document.querySelector("#specialCheck");
-const commonPasswordCheck = document.querySelector(
-  "#commonPasswordCheck",
-);
+const lengthCheck =
+  document.querySelector("#lengthCheck");
+
+const uppercaseCheck =
+  document.querySelector("#uppercaseCheck");
+
+const lowercaseCheck =
+  document.querySelector("#lowercaseCheck");
+
+const numberCheck =
+  document.querySelector("#numberCheck");
+
+const specialCheck =
+  document.querySelector("#specialCheck");
+
+const commonPasswordCheck =
+  document.querySelector("#commonPasswordCheck");
 
 
-// Advanced pattern checks
+// ============================================================
+// ADVANCED PASSWORD PATTERN CHECKS
+// ============================================================
 
-const repeatedCharactersValue = document.querySelector(
-  "#repeatedCharactersValue",
-);
+const repeatedCharactersValue =
+  document.querySelector("#repeatedCharactersValue");
 
-const repeatedBlocksValue = document.querySelector(
-  "#repeatedBlocksValue",
-);
+const repeatedBlocksValue =
+  document.querySelector("#repeatedBlocksValue");
 
-const sequentialValue = document.querySelector(
-  "#sequentialValue",
-);
+const sequentialValue =
+  document.querySelector("#sequentialValue");
 
-const keyboardValue = document.querySelector(
-  "#keyboardValue",
-);
+const keyboardValue =
+  document.querySelector("#keyboardValue");
 
-const leetspeakValue = document.querySelector(
-  "#leetspeakValue",
-);
+const leetspeakValue =
+  document.querySelector("#leetspeakValue");
 
-const yearValue = document.querySelector(
-  "#yearValue",
-);
+const yearValue =
+  document.querySelector("#yearValue");
 
-const dateValue = document.querySelector(
-  "#dateValue",
-);
+const dateValue =
+  document.querySelector("#dateValue");
 
-const fragmentValue = document.querySelector(
-  "#fragmentValue",
-);
+const fragmentValue =
+  document.querySelector("#fragmentValue");
 
 
 // ============================================================
 // PASSWORD GENERATOR ELEMENTS
 // ============================================================
 
-const generatedPassword = document.querySelector(
-  "#generatedPassword",
-);
+const generatedPassword =
+  document.querySelector("#generatedPassword");
 
-const copyPasswordButton = document.querySelector(
-  "#copyPassword",
-);
+const copyPasswordButton =
+  document.querySelector("#copyPassword");
 
-const passwordLength = document.querySelector(
-  "#passwordLength",
-);
+const passwordLength =
+  document.querySelector("#passwordLength");
 
-const passwordLengthValue = document.querySelector(
-  "#passwordLengthValue",
-);
+const passwordLengthValue =
+  document.querySelector("#passwordLengthValue");
 
-const includeUppercase = document.querySelector(
-  "#includeUppercase",
-);
+const includeUppercase =
+  document.querySelector("#includeUppercase");
 
-const includeLowercase = document.querySelector(
-  "#includeLowercase",
-);
+const includeLowercase =
+  document.querySelector("#includeLowercase");
 
-const includeNumbers = document.querySelector(
-  "#includeNumbers",
-);
+const includeNumbers =
+  document.querySelector("#includeNumbers");
 
-const includeSymbols = document.querySelector(
-  "#includeSymbols",
-);
+const includeSymbols =
+  document.querySelector("#includeSymbols");
 
-const excludeSimilar = document.querySelector(
-  "#excludeSimilar",
-);
+const excludeSimilar =
+  document.querySelector("#excludeSimilar");
 
-const excludeAmbiguous = document.querySelector(
-  "#excludeAmbiguous",
-);
+const excludeAmbiguous =
+  document.querySelector("#excludeAmbiguous");
 
-const noDuplicates = document.querySelector(
-  "#noDuplicates",
-);
+const noDuplicates =
+  document.querySelector("#noDuplicates");
 
-const generatePasswordButton = document.querySelector(
-  "#generatePassword",
-);
+const generatePasswordButton =
+  document.querySelector("#generatePassword");
 
 
 // ============================================================
 // PASSPHRASE GENERATOR ELEMENTS — PHASE 5
 // ============================================================
 
-const passphraseOutput = document.querySelector(
-  "#passphraseOutput",
-);
+const passphraseOutput =
+  document.querySelector("#passphraseOutput");
 
-const passphraseWordCount = document.querySelector(
-  "#passphraseWordCount",
-);
+const passphraseWordCount =
+  document.querySelector("#passphraseWordCount");
 
-const passphraseWordCountValue = document.querySelector(
-  "#passphraseWordCountValue",
-);
+const passphraseWordCountValue =
+  document.querySelector("#passphraseWordCountValue");
 
-const passphraseSeparator = document.querySelector(
-  "#passphraseSeparator",
-);
+const passphraseSeparator =
+  document.querySelector("#passphraseSeparator");
 
-const passphraseCapitalize = document.querySelector(
-  "#passphraseCapitalize",
-);
+const passphraseCapitalize =
+  document.querySelector("#passphraseCapitalize");
 
-const passphraseNumber = document.querySelector(
-  "#passphraseNumber",
-);
+const passphraseNumber =
+  document.querySelector("#passphraseNumber");
 
-const passphraseSymbol = document.querySelector(
-  "#passphraseSymbol",
-);
+const passphraseSymbol =
+  document.querySelector("#passphraseSymbol");
 
-const generatePassphraseButton = document.querySelector(
-  "#generatePassphrase",
-);
+const generatePassphraseButton =
+  document.querySelector("#generatePassphrase");
 
-const copyPassphraseButton = document.querySelector(
-  "#copyPassphrase",
-);
+const copyPassphraseButton =
+  document.querySelector("#copyPassphrase");
 
-const passphraseEntropy = document.querySelector(
-  "#passphraseEntropy",
-);
+const passphraseEntropy =
+  document.querySelector("#passphraseEntropy");
 
-const passphraseWords = document.querySelector(
-  "#passphraseWords",
-);
+const passphraseWords =
+  document.querySelector("#passphraseWords");
 
 
 // ============================================================
 // PASSWORD GENERATOR DEFAULTS
 // ============================================================
 
-const generatorDefaults = getDefaultOptions();
+const generatorDefaults =
+  getDefaultOptions();
 
 
 // ============================================================
@@ -230,13 +231,22 @@ function setCheckState(element, passed) {
     return;
   }
 
-  const icon = element.querySelector(".check-icon");
+  const icon =
+    element.querySelector(".check-icon");
 
-  element.classList.toggle("passed", passed);
-  element.classList.toggle("failed", !passed);
+  element.classList.toggle(
+    "passed",
+    passed,
+  );
+
+  element.classList.toggle(
+    "failed",
+    !passed,
+  );
 
   if (icon) {
-    icon.textContent = passed ? "✓" : "○";
+    icon.textContent =
+      passed ? "✓" : "○";
   }
 }
 
@@ -247,23 +257,33 @@ function formatLargeNumber(value) {
   }
 
   if (value < 1000) {
-    return String(Math.round(value));
+    return String(
+      Math.round(value),
+    );
   }
 
   if (value < 1_000_000) {
-    return `${(value / 1_000).toFixed(1)}K`;
+    return `${(
+      value / 1_000
+    ).toFixed(1)}K`;
   }
 
   if (value < 1_000_000_000) {
-    return `${(value / 1_000_000).toFixed(1)}M`;
+    return `${(
+      value / 1_000_000
+    ).toFixed(1)}M`;
   }
 
   if (value < 1_000_000_000_000) {
-    return `${(value / 1_000_000_000).toFixed(1)}B`;
+    return `${(
+      value / 1_000_000_000
+    ).toFixed(1)}B`;
   }
 
   if (value < 1_000_000_000_000_000) {
-    return `${(value / 1_000_000_000_000).toFixed(1)}T`;
+    return `${(
+      value / 1_000_000_000_000
+    ).toFixed(1)}T`;
   }
 
   return value.toExponential(2);
@@ -276,7 +296,10 @@ function formatBoolean(value) {
 
 
 function formatFragments(fragments) {
-  if (!Array.isArray(fragments) || fragments.length === 0) {
+  if (
+    !Array.isArray(fragments) ||
+    fragments.length === 0
+  ) {
     return "No";
   }
 
@@ -293,24 +316,40 @@ function updatePasswordAnalysis() {
     return;
   }
 
-  const password = passwordInput.value;
+  const password =
+    passwordInput.value;
 
-  const result = analyzePassword(password);
+  const result =
+    analyzePassword(password);
+
 
   // ----------------------------------------------------------
-  // Score
+  // SCORE
   // ----------------------------------------------------------
 
-  setText(scoreValue, result.score);
-  setText(strengthLabel, result.strength);
+  setText(
+    scoreValue,
+    result.score,
+  );
+
+  setText(
+    strengthLabel,
+    result.strength,
+  );
 
   if (strengthBar) {
-    strengthBar.style.width = `${result.score}%`;
-    strengthBar.setAttribute("aria-valuenow", String(result.score));
+    strengthBar.style.width =
+      `${result.score}%`;
+
+    strengthBar.setAttribute(
+      "aria-valuenow",
+      String(result.score),
+    );
   }
 
+
   // ----------------------------------------------------------
-  // Basic checks
+  // BASIC CHECKS
   // ----------------------------------------------------------
 
   setCheckState(
@@ -343,8 +382,9 @@ function updatePasswordAnalysis() {
     !result.checks.commonPassword,
   );
 
+
   // ----------------------------------------------------------
-  // Entropy
+  // ENTROPY
   // ----------------------------------------------------------
 
   setText(
@@ -359,7 +399,9 @@ function updatePasswordAnalysis() {
 
   setText(
     searchSpaceValue,
-    formatLargeNumber(result.searchSpace),
+    formatLargeNumber(
+      result.searchSpace,
+    ),
   );
 
   setText(
@@ -367,64 +409,88 @@ function updatePasswordAnalysis() {
     result.crackTime.label,
   );
 
+
   // ----------------------------------------------------------
-  // Pattern analysis
+  // PATTERN ANALYSIS
   // ----------------------------------------------------------
 
   setText(
     repeatedCharactersValue,
-    formatBoolean(result.patterns.repeatedCharacters),
+    formatBoolean(
+      result.patterns.repeatedCharacters,
+    ),
   );
 
   setText(
     repeatedBlocksValue,
-    formatBoolean(result.patterns.repeatedBlocks),
+    formatBoolean(
+      result.patterns.repeatedBlocks,
+    ),
   );
 
   setText(
     sequentialValue,
-    formatBoolean(result.patterns.sequential),
+    formatBoolean(
+      result.patterns.sequential,
+    ),
   );
 
   setText(
     keyboardValue,
-    formatBoolean(result.patterns.keyboard),
+    formatBoolean(
+      result.patterns.keyboard,
+    ),
   );
 
   setText(
     leetspeakValue,
-    formatBoolean(result.patterns.leetspeak),
+    formatBoolean(
+      result.patterns.leetspeak,
+    ),
   );
 
   setText(
     yearValue,
-    formatBoolean(result.patterns.year),
+    formatBoolean(
+      result.patterns.year,
+    ),
   );
 
   setText(
     dateValue,
-    formatBoolean(result.patterns.date),
+    formatBoolean(
+      result.patterns.date,
+    ),
   );
 
   setText(
     fragmentValue,
-    formatFragments(result.patterns.commonFragments),
+    formatFragments(
+      result.patterns.commonFragments,
+    ),
   );
 
+
   // ----------------------------------------------------------
-  // Suggestions
+  // SUGGESTIONS
   // ----------------------------------------------------------
 
   if (suggestionsList) {
     suggestionsList.replaceChildren();
 
-    result.suggestions.forEach((suggestion) => {
-      const item = document.createElement("li");
+    result.suggestions.forEach(
+      (suggestion) => {
+        const item =
+          document.createElement("li");
 
-      item.textContent = suggestion;
+        item.textContent =
+          suggestion;
 
-      suggestionsList.appendChild(item);
-    });
+        suggestionsList.appendChild(
+          item,
+        );
+      },
+    );
   }
 }
 
@@ -438,14 +504,19 @@ function togglePasswordVisibilityHandler() {
     return;
   }
 
-  const isPassword = passwordInput.type === "password";
+  const isPassword =
+    passwordInput.type === "password";
 
-  passwordInput.type = isPassword ? "text" : "password";
+  passwordInput.type =
+    isPassword
+      ? "text"
+      : "password";
 
   if (togglePasswordVisibility) {
-    togglePasswordVisibility.textContent = isPassword
-      ? "🙈"
-      : "👁️";
+    togglePasswordVisibility.textContent =
+      isPassword
+        ? "🙈"
+        : "👁️";
 
     togglePasswordVisibility.setAttribute(
       "aria-label",
@@ -463,7 +534,11 @@ function togglePasswordVisibilityHandler() {
 
 function getPasswordGeneratorOptions() {
   return {
-    length: Number(passwordLength?.value ?? generatorDefaults.length),
+    length:
+      Number(
+        passwordLength?.value ??
+        generatorDefaults.length,
+      ),
 
     includeUppercase:
       includeUppercase?.checked ??
@@ -514,9 +589,11 @@ function updatePasswordLengthLabel() {
 
 function generateNewPassword() {
   try {
-    const options = getPasswordGeneratorOptions();
+    const options =
+      getPasswordGeneratorOptions();
 
-    const password = generatePassword(options);
+    const password =
+      generatePassword(options);
 
     setText(
       generatedPassword,
@@ -525,10 +602,14 @@ function generateNewPassword() {
 
     return password;
   } catch (error) {
-    console.error("Password generation failed:", error);
+    console.error(
+      "Password generation failed:",
+      error,
+    );
 
     showNotification(
-      error.message || "Unable to generate password.",
+      error.message ||
+        "Unable to generate password.",
       "error",
     );
 
@@ -546,11 +627,13 @@ async function copyGeneratedPassword() {
     return;
   }
 
-  const password = generatedPassword.textContent;
+  const password =
+    generatedPassword.textContent;
 
   if (
     !password ||
-    password === "Click generate to create a password"
+    password ===
+      "Click generate to create a password"
   ) {
     showNotification(
       "Generate a password before copying.",
@@ -561,14 +644,19 @@ async function copyGeneratedPassword() {
   }
 
   try {
-    await copyToClipboard(password);
+    await copyToClipboard(
+      password,
+    );
 
     showNotification(
       "Password copied to clipboard.",
       "success",
     );
   } catch (error) {
-    console.error("Password copy failed:", error);
+    console.error(
+      "Password copy failed:",
+      error,
+    );
 
     showNotification(
       "Unable to copy password.",
@@ -584,26 +672,34 @@ async function copyGeneratedPassword() {
 
 function getPassphraseOptions() {
   return {
-    wordCount: Number(
-      passphraseWordCount?.value ?? 5,
-    ),
+    wordCount:
+      Number(
+        passphraseWordCount?.value ??
+        5,
+      ),
 
     separator:
-      passphraseSeparator?.value ?? "-",
+      passphraseSeparator?.value ??
+      "-",
 
     capitalize:
-      passphraseCapitalize?.checked ?? false,
+      passphraseCapitalize?.checked ??
+      false,
 
     addNumber:
-      passphraseNumber?.checked ?? false,
+      passphraseNumber?.checked ??
+      false,
 
     addSymbol:
-      passphraseSymbol?.checked ?? false,
+      passphraseSymbol?.checked ??
+      false,
   };
 }
 
 
-function updatePassphraseLabels(wordCount) {
+function updatePassphraseLabels(
+  wordCount,
+) {
   setText(
     passphraseWordCountValue,
     wordCount,
@@ -618,20 +714,27 @@ function updatePassphraseLabels(wordCount) {
 
 function generateNewPassphrase() {
   try {
-    const options = getPassphraseOptions();
+    const options =
+      getPassphraseOptions();
 
-    const passphrase = generatePassphrase(options);
+    const passphrase =
+      generatePassphrase(
+        options,
+      );
 
     setText(
       passphraseOutput,
       passphrase,
     );
 
-    updatePassphraseLabels(options.wordCount);
-
-    const entropy = calculatePassphraseEntropy(
+    updatePassphraseLabels(
       options.wordCount,
     );
+
+    const entropy =
+      calculatePassphraseEntropy(
+        options.wordCount,
+      );
 
     setText(
       passphraseEntropy,
@@ -646,7 +749,8 @@ function generateNewPassphrase() {
     );
 
     showNotification(
-      error.message || "Unable to generate passphrase.",
+      error.message ||
+        "Unable to generate passphrase.",
       "error",
     );
 
@@ -664,11 +768,13 @@ async function copyGeneratedPassphrase() {
     return;
   }
 
-  const passphrase = passphraseOutput.textContent;
+  const passphrase =
+    passphraseOutput.textContent;
 
   if (
     !passphrase ||
-    passphrase === "Click generate to create a passphrase"
+    passphrase ===
+      "Click generate to create a passphrase"
   ) {
     showNotification(
       "Generate a passphrase before copying.",
@@ -679,7 +785,9 @@ async function copyGeneratedPassphrase() {
   }
 
   try {
-    await copyToClipboard(passphrase);
+    await copyToClipboard(
+      passphrase,
+    );
 
     showNotification(
       "Passphrase copied to clipboard.",
@@ -734,7 +842,8 @@ copyPasswordButton?.addEventListener(
 );
 
 
-// Regenerate when generator options change.
+// Regenerate when password generator
+// options change.
 
 [
   includeUppercase,
@@ -744,12 +853,14 @@ copyPasswordButton?.addEventListener(
   excludeSimilar,
   excludeAmbiguous,
   noDuplicates,
-].forEach((element) => {
-  element?.addEventListener(
-    "change",
-    generateNewPassword,
-  );
-});
+].forEach(
+  (element) => {
+    element?.addEventListener(
+      "change",
+      generateNewPassword,
+    );
+  },
+);
 
 
 // ============================================================
@@ -759,11 +870,14 @@ copyPasswordButton?.addEventListener(
 passphraseWordCount?.addEventListener(
   "input",
   () => {
-    const wordCount = Number(
-      passphraseWordCount.value,
-    );
+    const wordCount =
+      Number(
+        passphraseWordCount.value,
+      );
 
-    updatePassphraseLabels(wordCount);
+    updatePassphraseLabels(
+      wordCount,
+    );
 
     generateNewPassphrase();
   },
@@ -807,100 +921,140 @@ copyPassphraseButton?.addEventListener(
 
 
 // ============================================================
-// INITIALIZE APPLICATION
+// INITIALIZE PASSWORD GENERATOR
 // ============================================================
 
 function initializePasswordGenerator() {
   if (passwordLength) {
-    passwordLength.value = String(
-      generatorDefaults.length ?? 16,
-    );
+    passwordLength.value =
+      String(
+        generatorDefaults.length ??
+        16,
+      );
   }
 
   if (includeUppercase) {
     includeUppercase.checked =
-      generatorDefaults.includeUppercase ?? true;
+      generatorDefaults.includeUppercase ??
+      true;
   }
 
   if (includeLowercase) {
     includeLowercase.checked =
-      generatorDefaults.includeLowercase ?? true;
+      generatorDefaults.includeLowercase ??
+      true;
   }
 
   if (includeNumbers) {
     includeNumbers.checked =
-      generatorDefaults.includeNumbers ?? true;
+      generatorDefaults.includeNumbers ??
+      true;
   }
 
   if (includeSymbols) {
     includeSymbols.checked =
-      generatorDefaults.includeSymbols ?? true;
+      generatorDefaults.includeSymbols ??
+      true;
   }
 
   if (excludeSimilar) {
     excludeSimilar.checked =
-      generatorDefaults.excludeSimilar ?? false;
+      generatorDefaults.excludeSimilar ??
+      false;
   }
 
   if (excludeAmbiguous) {
     excludeAmbiguous.checked =
-      generatorDefaults.excludeAmbiguous ?? false;
+      generatorDefaults.excludeAmbiguous ??
+      false;
   }
 
   if (noDuplicates) {
     noDuplicates.checked =
-      generatorDefaults.noDuplicates ?? false;
+      generatorDefaults.noDuplicates ??
+      false;
   }
 
   updatePasswordLengthLabel();
 }
 
 
+// ============================================================
+// INITIALIZE PASSPHRASE GENERATOR — PHASE 5
+// ============================================================
+
 function initializePassphraseGenerator() {
   if (passphraseWordCount) {
-    passphraseWordCount.value = "5";
+    passphraseWordCount.value =
+      "5";
   }
 
   if (passphraseSeparator) {
-    passphraseSeparator.value = "-";
+    passphraseSeparator.value =
+      "-";
   }
 
   if (passphraseCapitalize) {
-    passphraseCapitalize.checked = false;
+    passphraseCapitalize.checked =
+      false;
   }
 
   if (passphraseNumber) {
-    passphraseNumber.checked = false;
+    passphraseNumber.checked =
+      false;
   }
 
   if (passphraseSymbol) {
-    passphraseSymbol.checked = false;
+    passphraseSymbol.checked =
+      false;
   }
 
-  const wordCount = Number(
-    passphraseWordCount?.value ?? 5,
-  );
+  const wordCount =
+    Number(
+      passphraseWordCount?.value ??
+      5,
+    );
 
-  updatePassphraseLabels(wordCount);
+  updatePassphraseLabels(
+    wordCount,
+  );
 
   setText(
     passphraseEntropy,
-    `${calculatePassphraseEntropy(wordCount).toFixed(1)} bits`,
+    `${calculatePassphraseEntropy(
+      wordCount,
+    ).toFixed(1)} bits`,
   );
 }
 
 
+// ============================================================
+// INITIALIZE APPLICATION
+// ============================================================
+
 function initializeApplication() {
+  // Phase 2/3/4
   initializePasswordGenerator();
 
+  // Phase 5
   initializePassphraseGenerator();
 
+  // Phase 6
+  initializePinUI();
+
+  // Initial password analysis
   updatePasswordAnalysis();
 
+  // Generate initial password
   generateNewPassword();
 
+  // Generate initial passphrase
   generateNewPassphrase();
 }
 
+
+// ============================================================
+// START APPLICATION
+// ============================================================
 
 initializeApplication();

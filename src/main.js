@@ -43,6 +43,9 @@ import {
   showNotification,
 } from "./ui/notifications.js";
 
+import {
+  initializeSecurityUI,
+} from "./ui/security.js";
 
 // ============================================================
 // THEME
@@ -1054,6 +1057,8 @@ function initializeApplication() {
   initializePrivacyUI();
 
   initializePwa();
+
+  initializeSecurityUI();
   
   updatePasswordAnalysis();
 

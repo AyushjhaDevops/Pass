@@ -37,6 +37,29 @@
     content="Password Toolkit"
   />
 
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: blob:;
+      font-src 'self';
+      connect-src 'self';
+      worker-src 'self';
+      manifest-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      frame-src 'none';
+    "
+  />
+  <meta
+    name="referrer"
+    content="strict-origin-when-cross-origin"
+  />
+
   <link
     rel="manifest"
     href="/manifest.webmanifest"
@@ -1277,7 +1300,104 @@
             <ul id="privacySummaryList"><li>Passwords are processed locally in the browser.</li><li>Sensitive credentials are not intentionally persisted by the privacy layer.</li><li>Copied values can be automatically cleared.</li></ul>
           </div>
         </section>
+        <section
+  class="card security-engineering-card"
+  id="securityEngineeringSection"
+  aria-labelledby="securityEngineeringTitle"
+>
+  <div class="card-header">
+    <div>
+      <span class="eyebrow">Phase 10</span>
 
+      <h2 id="securityEngineeringTitle">
+        Security Engineering
+      </h2>
+
+      <p>
+        Runtime checks for the security assumptions
+        used by the toolkit.
+      </p>
+    </div>
+
+    <div
+      class="card-icon"
+      aria-hidden="true"
+    >
+      🛡️
+    </div>
+  </div>
+
+  <div class="security-audit-status">
+    <span
+      id="securityAuditStatus"
+      class="security-audit-badge"
+      role="status"
+      aria-live="polite"
+    >
+      Security audit pending
+    </span>
+  </div>
+
+  <div
+    class="security-audit-summary"
+    aria-label="Security audit summary"
+  >
+    <div class="security-audit-stat">
+      <span>Passed</span>
+      <strong id="securityPassedValue">0</strong>
+    </div>
+
+    <div class="security-audit-stat">
+      <span>Review</span>
+      <strong id="securityFailedValue">0</strong>
+    </div>
+
+    <div class="security-audit-stat">
+      <span>Critical</span>
+      <strong id="securityCriticalValue">0</strong>
+    </div>
+
+    <div class="security-audit-stat">
+      <span>Total</span>
+      <strong id="securityTotalValue">0</strong>
+    </div>
+  </div>
+
+  <div
+    id="securityAuditChecks"
+    class="security-audit-checks"
+    aria-live="polite"
+  >
+  </div>
+
+  <div class="security-audit-actions">
+    <button
+      id="runSecurityAudit"
+      class="button button-secondary"
+      type="button"
+    >
+      Run Security Audit
+    </button>
+  </div>
+
+  <div class="security-engineering-note">
+    <strong>Security model</strong>
+
+    <p>
+      Sensitive password, passphrase, and PIN values
+      are intended to remain in browser memory and
+      are not intentionally persisted by the
+      security layer.
+    </p>
+
+    <p>
+      Runtime checks are diagnostic controls. They
+      do not replace browser security, HTTPS,
+      deployment controls, dependency review, or
+      independent security testing.
+    </p>
+  </div>
+</section>
       </main>
 
 

@@ -2,10 +2,12 @@ import "./styles/main.css";
 import "./styles/responsive.css";
 import "./styles/themes.css";
 import "./styles/pin.css";
+import "./styles/privacy.css";
 
 import {
   initializePinUI,
 } from "./ui/pin-ui.js";
+import { initializePrivacyUI } from "./ui/privacy.js";
 
 import {
   analyzePassword,
@@ -1033,24 +1035,21 @@ function initializePassphraseGenerator() {
 // ============================================================
 
 function initializeApplication() {
-  // Phase 2/3/4
   initializePasswordGenerator();
 
-  // Phase 5
   initializePassphraseGenerator();
 
-  // Phase 6
   initializePinUI();
 
-  // Initial password analysis
+  initializePrivacyUI();
+
   updatePasswordAnalysis();
 
-  // Generate initial password
   generateNewPassword();
 
-  // Generate initial passphrase
   generateNewPassphrase();
 }
+
 
 
 // ============================================================

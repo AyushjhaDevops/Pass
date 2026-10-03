@@ -974,6 +974,230 @@
           </div>
 
         </section>
+        <section class="card pin-generator-card" id="pinGeneratorSection">
+  <div class="card-header">
+    <div>
+      <h2>PIN Generator</h2>
+      <p>
+        Generate cryptographically secure PINs and
+        analyze common weaknesses.
+      </p>
+    </div>
+  </div>
+
+  <div class="pin-output-wrapper">
+    <input
+      id="generatedPin"
+      class="pin-output"
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Generated PIN"
+      value=""
+    />
+  </div>
+
+  <div class="pin-action-row">
+    <button
+      id="generatePin"
+      class="button button-primary"
+      type="button"
+    >
+      Generate PIN
+    </button>
+
+    <button
+      id="copyPin"
+      class="button button-secondary"
+      type="button"
+    >
+      Copy PIN
+    </button>
+  </div>
+
+  <div class="pin-controls">
+    <div class="pin-length-control">
+      <div class="pin-length-header">
+        <label for="pinLength">
+          PIN Length
+        </label>
+
+        <span
+          id="pinLengthValue"
+          class="pin-length-value"
+        >
+          6
+        </span>
+      </div>
+
+      <input
+        id="pinLength"
+        type="range"
+        min="4"
+        max="12"
+        value="6"
+        step="1"
+      />
+    </div>
+
+    <div class="pin-options">
+      <label class="pin-option">
+        <input
+          id="pinNoRepeats"
+          type="checkbox"
+          checked
+        />
+
+        <span>
+          No repeated digits
+        </span>
+      </label>
+
+      <label class="pin-option">
+        <input
+          id="pinAvoidSequential"
+          type="checkbox"
+          checked
+        />
+
+        <span>
+          Avoid sequences
+        </span>
+      </label>
+
+      <label class="pin-option">
+        <input
+          id="pinAvoidCommon"
+          type="checkbox"
+          checked
+        />
+
+        <span>
+          Avoid common PINs
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <div class="pin-analysis">
+    <div class="pin-strength">
+      <span>
+        PIN Strength
+      </span>
+
+      <span
+        id="pinStrengthLabel"
+        class="pin-strength-label"
+      >
+        Not analyzed
+      </span>
+    </div>
+
+    <div class="pin-analysis-grid">
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Score
+        </span>
+
+        <span
+          id="pinScoreValue"
+          class="pin-stat-value"
+        >
+          0
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Entropy
+        </span>
+
+        <span
+          id="pinEntropyValue"
+          class="pin-stat-value"
+        >
+          0 bits
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Search Space
+        </span>
+
+        <span
+          id="pinSearchSpaceValue"
+          class="pin-stat-value"
+        >
+          0
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Estimated Crack Time
+        </span>
+
+        <span
+          id="pinCrackTimeValue"
+          class="pin-stat-value"
+        >
+          Instant
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Repeated Digits
+        </span>
+
+        <span
+          id="pinRepeatedValue"
+          class="pin-stat-value"
+        >
+          None
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Sequential Pattern
+        </span>
+
+        <span
+          id="pinSequentialValue"
+          class="pin-stat-value"
+        >
+          None
+        </span>
+      </div>
+
+      <div class="pin-stat">
+        <span class="pin-stat-label">
+          Common PIN
+        </span>
+
+        <span
+          id="pinCommonValue"
+          class="pin-stat-value"
+        >
+          Not common
+        </span>
+      </div>
+    </div>
+
+    <div class="pin-suggestions">
+      <h3>Security Recommendations</h3>
+
+      <ul id="pinSuggestionsList">
+        <li>
+          Generate or enter a PIN to begin analysis.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
       </main>
 

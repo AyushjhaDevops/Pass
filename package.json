@@ -17,7 +17,8 @@
     "test:statistical": "vitest run tests/statistical",
     "lint": "eslint .",
     "verify": "npm run lint && npm run test:run && npm run build",
-    "verify:full": "npm run lint && npm run test:coverage && npm run build"
+    "verify:full": "npm run lint && npm run test:coverage && npm run build",
+    "verify:release": "npm run lint && npm run test:coverage && npm run build"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^5.0.3",

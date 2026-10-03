@@ -23,6 +23,7 @@
 
   <body>
     <div id="app">
+      <a id="skipToContent" class="skip-link" href="#main-content">Skip to main content</a>
       <!-- ============================================================
            HEADER
            ============================================================ -->
@@ -61,7 +62,7 @@
            MAIN CONTENT
            ============================================================ -->
 
-      <main class="container">
+      <main id="main-content" class="container" tabindex="-1">
 
         <!-- ==========================================================
              SECURITY NOTICE
@@ -123,6 +124,9 @@
                   type="password"
                   data-sensitive="true"
                   autocomplete="off"
+                  autocapitalize="off"
+                  autocorrect="off"
+                  spellcheck="false"
                   placeholder="Enter a password to analyze"
                   aria-describedby="passwordInputHelp"
                 />
@@ -132,6 +136,7 @@
                   class="input-action"
                   type="button"
                   aria-label="Show password"
+                  aria-pressed="false"
                   title="Show password"
                 >
                   👁️
@@ -432,8 +437,6 @@
                 <output
                   id="generatedPassword"
                   class="generated-password"
-                  data-sensitive="true"
-                  data-generated-sensitive="true"
                   aria-live="polite"
                 >
                   Click generate to create a password
@@ -658,8 +661,6 @@
                 <output
                   id="passphraseOutput"
                   class="generated-password"
-                  data-sensitive="true"
-                  data-generated-sensitive="true"
                   aria-live="polite"
                 >
                   Click generate to create a passphrase
@@ -702,6 +703,10 @@
                 max="12"
                 value="5"
                 step="1"
+              aria-label="Passphrase word count"
+                aria-valuemin="4"
+                aria-valuemax="12"
+                aria-valuenow="5"
               />
 
               <div class="range-labels">
@@ -1001,6 +1006,7 @@
       aria-label="Generated PIN"
       data-sensitive="true"
       data-generated-sensitive="true"
+      aria-describedby="pinAccessibilityHelp"
       value=""
     />
   </div>
@@ -1045,6 +1051,10 @@
         max="12"
         value="6"
         step="1"
+      aria-label="PIN length"
+        aria-valuemin="4"
+        aria-valuemax="12"
+        aria-valuenow="6"
       />
     </div>
 
@@ -1206,140 +1216,44 @@
   </div>
 </section>
 
+
         <!-- ==========================================================
              PRIVACY & SECURITY — PHASE 7
              ========================================================== -->
-
-        <section
-          class="card privacy-card"
-          id="privacySection"
-          aria-labelledby="privacyTitle"
-        >
-
+        <section class="card privacy-card" id="privacySection" aria-labelledby="privacyTitle">
           <div class="card-header">
             <div>
               <span class="eyebrow">Phase 7</span>
-
-              <h2 id="privacyTitle">
-                Privacy &amp; Security
-              </h2>
-
-              <p>
-                Control clipboard protection, sensitive-data cleanup,
-                and local-only privacy behavior.
-              </p>
+              <h2 id="privacyTitle">Privacy &amp; Security</h2>
+              <p>Control clipboard protection, sensitive-data cleanup, and local-only privacy behavior.</p>
             </div>
-
-            <div class="card-icon" aria-hidden="true">
-              🔒
-            </div>
+            <div class="card-icon" aria-hidden="true">🔒</div>
           </div>
-
           <div class="privacy-header-status">
-            <span
-              id="localOnlyIndicator"
-              class="privacy-indicator privacy-indicator-secure"
-              title="Sensitive processing is designed to remain in your browser."
-            >
-              🔒 Local-only
-            </span>
+            <span id="localOnlyIndicator" class="privacy-indicator privacy-indicator-secure">🔒 Local-only</span>
           </div>
-
           <div class="privacy-status-grid">
-            <div class="privacy-status-item">
-              <span class="privacy-status-label">Processing</span>
-              <strong id="privacyNetworkStatus">Local processing only</strong>
-            </div>
-
-            <div class="privacy-status-item">
-              <span class="privacy-status-label">Sensitive Storage</span>
-              <strong id="privacyStorageStatus">No persistent sensitive storage</strong>
-            </div>
-
-            <div class="privacy-status-item">
-              <span class="privacy-status-label">Clipboard</span>
-              <strong id="privacyClipboardStatus">Clipboard protection available</strong>
-            </div>
+            <div class="privacy-status-item"><span class="privacy-status-label">Processing</span><strong id="privacyNetworkStatus">Local processing only</strong></div>
+            <div class="privacy-status-item"><span class="privacy-status-label">Sensitive Storage</span><strong id="privacyStorageStatus">No persistent sensitive storage</strong></div>
+            <div class="privacy-status-item"><span class="privacy-status-label">Clipboard</span><strong id="privacyClipboardStatus">Clipboard protection available</strong></div>
           </div>
-
           <div class="privacy-settings">
             <div class="section-title">Privacy Settings</div>
-
-            <label class="privacy-option">
-              <input type="checkbox" id="privacyAutoClearClipboard" checked />
-              <span>
-                <strong>Automatically clear clipboard</strong>
-                <small>Clear copied sensitive values after the selected timeout.</small>
-              </span>
-            </label>
-
-            <label class="privacy-option">
-              <span>
-                <strong>Clipboard timeout</strong>
-                <small>How long a copied value remains in the clipboard.</small>
-              </span>
-
-              <select id="privacyClipboardSeconds" class="select-input">
-                <option value="10">10 seconds</option>
-                <option value="15">15 seconds</option>
-                <option value="30" selected>30 seconds</option>
-                <option value="60">60 seconds</option>
-                <option value="120">2 minutes</option>
-              </select>
-            </label>
-
-            <label class="privacy-option">
-              <input type="checkbox" id="privacyClearOnPageHide" checked />
-              <span>
-                <strong>Clear sensitive fields when page is hidden</strong>
-                <small>Helps prevent sensitive values remaining visible when switching away from the application.</small>
-              </span>
-            </label>
-
-            <label class="privacy-option">
-              <input type="checkbox" id="privacyClearSensitiveOnUnload" checked />
-              <span>
-                <strong>Clear sensitive fields when leaving</strong>
-                <small>Clears sensitive form values before the document is unloaded when possible.</small>
-              </span>
-            </label>
-
-            <label class="privacy-option">
-              <input type="checkbox" id="privacyLocalOnly" checked disabled />
-              <span>
-                <strong>Local-only processing</strong>
-                <small>Password analysis and generation are performed in the browser.</small>
-              </span>
-            </label>
+            <label class="privacy-option"><input type="checkbox" id="privacyAutoClearClipboard" checked /><span><strong>Automatically clear clipboard</strong><small>Clear copied sensitive values after the selected timeout.</small></span></label>
+            <label class="privacy-option"><span><strong>Clipboard timeout</strong><small>How long a copied value remains in the clipboard.</small></span><select id="privacyClipboardSeconds" class="select-input" aria-label="Clipboard timeout"><option value="10">10 seconds</option><option value="15">15 seconds</option><option value="30" selected>30 seconds</option><option value="60">60 seconds</option><option value="120">2 minutes</option></select></label>
+            <label class="privacy-option"><input type="checkbox" id="privacyClearOnPageHide" checked /><span><strong>Clear sensitive fields when page is hidden</strong><small>Helps prevent sensitive values remaining visible when switching away from the application.</small></span></label>
+            <label class="privacy-option"><input type="checkbox" id="privacyClearSensitiveOnUnload" checked /><span><strong>Clear sensitive fields when leaving</strong><small>Clears sensitive form values before the document is unloaded when possible.</small></span></label>
+            <label class="privacy-option"><input type="checkbox" id="privacyLocalOnly" checked disabled /><span><strong>Local-only processing</strong><small>Password analysis and generation are performed in the browser.</small></span></label>
           </div>
-
           <div class="clipboard-security">
-            <div>
-              <strong>Clipboard Protection</strong>
-              <p id="clipboardCountdown">Clipboard clear: inactive</p>
-            </div>
-
-            <button
-              id="clearClipboardButton"
-              class="button button-secondary"
-              type="button"
-            >
-              Clear Clipboard Now
-            </button>
+            <div><strong>Clipboard Protection</strong><p id="clipboardCountdown" role="status" aria-live="polite" aria-atomic="true">Clipboard clear: inactive</p></div>
+            <button id="clearClipboardButton" class="button button-secondary" type="button">Clear Clipboard Now</button>
           </div>
-
           <div class="privacy-summary">
             <div class="section-title">Privacy Guarantees</div>
-
-            <ul id="privacySummaryList">
-              <li>Passwords are processed locally in the browser.</li>
-              <li>Sensitive credentials are not intentionally persisted by the privacy layer.</li>
-              <li>Copied values can be automatically cleared.</li>
-            </ul>
+            <ul id="privacySummaryList"><li>Passwords are processed locally in the browser.</li><li>Sensitive credentials are not intentionally persisted by the privacy layer.</li><li>Copied values can be automatically cleared.</li></ul>
           </div>
-
         </section>
-
 
       </main>
 
@@ -1382,6 +1296,7 @@
          APPLICATION ENTRY POINT
          ============================================================== -->
 
+    <!-- Phase 8: UI/UX hardening + accessibility -->
     <script
       type="module"
       src="/src/main.js"

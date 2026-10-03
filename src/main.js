@@ -3,11 +3,17 @@ import "./styles/responsive.css";
 import "./styles/themes.css";
 import "./styles/pin.css";
 import "./styles/privacy.css";
+import "./styles/accessibility.css";
 
 import {
   initializePinUI,
 } from "./ui/pin-ui.js";
+
 import { initializePrivacyUI } from "./ui/privacy.js";
+
+import {
+  initializeAccessibility,
+} from "./ui/accessibility.js";
 
 import {
   analyzePassword,
@@ -1038,6 +1044,8 @@ function initializeApplication() {
   initializePasswordGenerator();
 
   initializePassphraseGenerator();
+  
+  initializeAccessibility();
 
   initializePinUI();
 

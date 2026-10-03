@@ -1,0 +1,420 @@
+/* ============================================================
+   ACCESSIBILITY & UI HARDENING — PHASE 8
+   ============================================================ */
+
+
+/* ============================================================
+   SKIP LINK
+   ============================================================ */
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 1rem;
+  z-index: 10000;
+
+  padding: 0.75rem 1rem;
+
+  background: var(--card-background, #ffffff);
+  color: var(--text-color, #111827);
+
+  border: 2px solid currentColor;
+  border-radius: 0 0 0.5rem 0.5rem;
+
+  text-decoration: none;
+  font-weight: 700;
+
+  transform: translateY(-120%);
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   VISUALLY HIDDEN
+   ============================================================ */
+
+.visually-hidden {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+
+/* ============================================================
+   KEYBOARD FOCUS
+   ============================================================ */
+
+:focus {
+  outline: none;
+}
+
+.keyboard-navigation :focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+.keyboard-navigation
+button:focus-visible,
+.keyboard-navigation
+input:focus-visible,
+.keyboard-navigation
+select:focus-visible,
+.keyboard-navigation
+textarea:focus-visible,
+.keyboard-navigation
+a:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   TOUCH TARGET HARDENING
+   ============================================================ */
+
+button,
+input,
+select,
+textarea {
+  min-height: 44px;
+}
+
+button {
+  min-width: 44px;
+}
+
+.icon-button,
+.input-action {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+
+/* ============================================================
+   RANGE INPUT
+   ============================================================ */
+
+input[type="range"] {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   CHECKBOXES
+   ============================================================ */
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+
+  min-width: 20px;
+  min-height: 20px;
+
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   INVALID FORM STATE
+   ============================================================ */
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: currentColor;
+}
+
+
+/* ============================================================
+   DISABLED CONTROLS
+   ============================================================ */
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   GENERATED SENSITIVE VALUES
+   ============================================================ */
+
+[data-generated-sensitive="true"] {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+#generatedPassword,
+#passphraseOutput,
+#generatedPin {
+  user-select: all;
+}
+
+
+/* ============================================================
+   STATUS VALUES
+   ============================================================ */
+
+#strengthLabel,
+#scoreValue,
+#entropyValue,
+#crackTimeValue,
+#pinStrengthLabel,
+#pinScoreValue,
+#pinEntropyValue,
+#pinCrackTimeValue {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ============================================================
+   SECURITY STATES
+   ============================================================ */
+
+.check-item,
+.pattern-item,
+.pin-stat {
+  position: relative;
+}
+
+.check-item::before,
+.pattern-item::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: currentColor;
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .skip-link {
+    transition: none;
+  }
+}
+
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+
+/* ============================================================
+   HIGH CONTRAST
+   ============================================================ */
+
+@media (prefers-contrast: more) {
+  button,
+  input,
+  select,
+  textarea,
+  .card,
+  .security-notice,
+  .privacy-status-item,
+  .privacy-option,
+  .clipboard-security {
+    border-width: 2px;
+  }
+
+  .eyebrow,
+  small,
+  .metric-label,
+  .privacy-status-label {
+    opacity: 1;
+  }
+}
+
+html[data-high-contrast="true"] {
+  --border-width-accessibility: 2px;
+}
+
+
+/* ============================================================
+   FORCED COLORS
+   ============================================================ */
+
+@media (forced-colors: active) {
+  button,
+  input,
+  select,
+  textarea,
+  a {
+    forced-color-adjust: auto;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  a:focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}
+
+
+/* ============================================================
+   MOBILE HARDENING
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .container {
+    width: min(
+      100% - 1.5rem,
+      1200px
+    );
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .card-header {
+    gap: 1rem;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .button-row button {
+    width: 100%;
+  }
+
+  .generated-password-wrapper {
+    align-items: stretch;
+  }
+
+  .generated-password-wrapper .input-action {
+    flex-shrink: 0;
+  }
+
+  .password-input-wrapper {
+    align-items: stretch;
+  }
+
+  .password-input-wrapper input {
+    min-width: 0;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================================
+   VERY SMALL SCREENS
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand h1 {
+    font-size: 1.15rem;
+  }
+
+  .brand p {
+    font-size: 0.8rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .metric,
+  .pin-stat {
+    min-width: 0;
+  }
+
+  #generatedPassword,
+  #passphraseOutput,
+  #generatedPin {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* ============================================================
+   TEXT SELECTION
+   ============================================================ */
+
+[data-sensitive="true"] {
+  caret-color: currentColor;
+}
+
+input[data-sensitive="true"] {
+  -webkit-text-security: none;
+}
+
+
+/* ============================================================
+   PRINT PROTECTION
+   ============================================================ */
+
+@media print {
+  [data-sensitive="true"],
+  [data-generated-sensitive="true"] {
+    color: transparent !important;
+    text-shadow: none !important;
+  }
+
+  .privacy-card,
+  .security-notice {
+    break-inside: avoid;
+  }
+}

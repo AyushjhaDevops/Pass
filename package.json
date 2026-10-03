@@ -9,9 +9,19 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "lint": "eslint ."
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:security": "vitest run tests/security tests/unit/privacy.edge.test.js",
+    "test:pwa": "vitest run tests/pwa tests/unit tests/integration",
+    "test:statistical": "vitest run tests/statistical",
+    "lint": "eslint .",
+    "verify": "npm run lint && npm run test:run && npm run build",
+    "verify:full": "npm run lint && npm run test:coverage && npm run build"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^5.0.3",
+    "@vitest/ui": "^5.0.3",
     "eslint": "^10.11.0",
     "globals": "^17.13.0",
     "jsdom": "^30.1.1",

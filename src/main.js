@@ -4,10 +4,12 @@ import "./styles/themes.css";
 import "./styles/pin.css";
 import "./styles/privacy.css";
 import "./styles/accessibility.css";
-
+import "./styles/pwa.css";
 import {
   initializePinUI,
 } from "./ui/pin-ui.js";
+
+import { initializePwa } from "./ui/pwa.js";
 
 import { initializePrivacyUI } from "./ui/privacy.js";
 
@@ -1044,13 +1046,15 @@ function initializeApplication() {
   initializePasswordGenerator();
 
   initializePassphraseGenerator();
-  
+
   initializeAccessibility();
 
   initializePinUI();
 
   initializePrivacyUI();
 
+  initializePwa();
+  
   updatePasswordAnalysis();
 
   generateNewPassword();

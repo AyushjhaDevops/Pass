@@ -35,41 +35,35 @@ function bytesToHex(buffer) {
   ).join("");
 }
 
-/**
- * Hash a password locally using SHA-1.
- *
- * The password itself never leaves this function.
- */
 export async function hashPassword(password) {
   validatePassword(password);
 
   const cryptoApi = getCrypto();
 
-  const encoded = new TextEncoder().encode(password);
+  const encoded =
+    new TextEncoder().encode(password);
 
-  const digest = await cryptoApi.subtle.digest(
-    "SHA-1",
-    encoded,
-  );
+  const digest =
+    await cryptoApi.subtle.digest(
+      "SHA-1",
+      encoded,
+    );
 
   return bytesToHex(digest).toUpperCase();
 }
 
-/**
- * Split a SHA-1 hash into the five-character
- * HIBP prefix and the remaining suffix.
- */
 export function splitHash(hash) {
   if (typeof hash !== "string") {
-    throw new TypeError("Hash must be a string.");
+    throw new TypeError(
+      "Hash must be a string.",
+    );
   }
 
-  const normalized = hash.trim().toUpperCase();
+  const normalized =
+    hash.trim().toUpperCase();
 
   if (!/^[A-F0-9]{40}$/.test(normalized)) {
-    throw new Error(
-      "Invalid SHA-1 hash.",
-    );
+    throw new Error("Invalid SHA-1 hash.");
   }
 
   return {
@@ -83,15 +77,9 @@ export function splitHash(hash) {
   };
 }
 
-/**
- * Parse the HIBP range response.
- *
- * Expected format:
- *
- * ABCDEF123...:42
- * 123456789...:7
- */
-export function parseBreachResponse(responseText) {
+export function parseBreachResponse(
+  responseText,
+) {
   if (typeof responseText !== "string") {
     throw new TypeError(
       "Breach response must be a string.",
@@ -100,7 +88,9 @@ export function parseBreachResponse(responseText) {
 
   const results = [];
 
-  for (const line of responseText.split(/\r?\n/)) {
+  for (
+    const line of responseText.split(/\r?\n/)
+  ) {
     const trimmed = line.trim();
 
     if (!trimmed) {
@@ -130,22 +120,56 @@ export function parseBreachResponse(responseText) {
       continue;
     }
 
+    const count = Number(countText);
+
+    if (!Number.isSafeInteger(count)) {
+      continue;
+    }
+
     results.push({
       suffix,
-      count: Number(countText),
+      count,
     });
   }
 
   return results;
 }
 
-/**
- * Look up a hash prefix against HIBP.
- *
- * IMPORTANT:
- * Only the first five characters of the SHA-1 hash
- * are sent over the network.
- */
+function getRequestTimeout(options = {}) {
+  return Number.isFinite(options.timeout)
+    ? Math.max(1, options.timeout)
+    : REQUEST_TIMEOUT_MS;
+}
+
+function createAbortController() {
+  if (
+    typeof AbortController ===
+    "undefined"
+  ) {
+    return null;
+  }
+
+  return new AbortController();
+}
+
+function createBreachRequest(
+  prefix,
+  signal,
+) {
+  return {
+    url: `${HIBP_API_BASE}/${prefix}`,
+    options: {
+      method: "GET",
+      headers: {
+        "Add-Padding": "true",
+      },
+      cache: "no-store",
+      credentials: "omit",
+      signal,
+    },
+  };
+}
+
 export async function queryBreachRange(
   prefix,
   options = {},
@@ -169,45 +193,36 @@ export async function queryBreachRange(
     );
   }
 
-  if (
-    typeof fetch !== "function"
-  ) {
+  if (typeof fetch !== "function") {
     throw new Error(
       "Fetch API is not available.",
     );
   }
 
   const timeout =
-    Number.isFinite(options.timeout)
-      ? Math.max(1, options.timeout)
-      : REQUEST_TIMEOUT_MS;
+    getRequestTimeout(options);
 
   const controller =
-    typeof AbortController !== "undefined"
-      ? new AbortController()
-      : null;
+    createAbortController();
 
   let timeoutId = null;
 
   if (controller) {
-    timeoutId = setTimeout(
-      () => controller.abort(),
-      timeout,
-    );
+    timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeout);
   }
+
+  const request =
+    createBreachRequest(
+      normalizedPrefix,
+      controller?.signal,
+    );
 
   try {
     const response = await fetch(
-      `${HIBP_API_BASE}/${normalizedPrefix}`,
-      {
-        method: "GET",
-        headers: {
-          "Add-Padding": "true",
-        },
-        cache: "no-store",
-        credentials: "omit",
-        signal: controller?.signal,
-      },
+      request.url,
+      request.options,
     );
 
     if (response.status === 404) {
@@ -226,12 +241,16 @@ export async function queryBreachRange(
       );
     }
 
-    const text = await response.text();
+    const responseText =
+      await response.text();
 
-    return parseBreachResponse(text);
+    return parseBreachResponse(
+      responseText,
+    );
   } catch (error) {
     if (
-      error?.name === "AbortError"
+      error?.name ===
+      "AbortError"
     ) {
       throw new Error(
         "Breach lookup timed out.",
@@ -246,12 +265,6 @@ export async function queryBreachRange(
   }
 }
 
-/**
- * Perform a complete privacy-preserving
- * breach lookup.
- *
- * The plaintext password is never sent.
- */
 export async function checkPasswordBreach(
   password,
   options = {},
@@ -272,10 +285,11 @@ export async function checkPasswordBreach(
       options,
     );
 
-  const match = matches.find(
-    (entry) =>
-      entry.suffix === suffix,
-  );
+  const match =
+    matches.find(
+      (entry) =>
+        entry.suffix === suffix,
+    );
 
   return {
     breached: Boolean(match),
@@ -289,11 +303,16 @@ export function getBreachServiceInfo() {
     provider:
       "Have I Been Pwned - Pwned Passwords",
     hashAlgorithm: "SHA-1",
-    prefixLength: HASH_PREFIX_LENGTH,
+    prefixLength:
+      HASH_PREFIX_LENGTH,
     sendsFullPassword: false,
     sendsFullHash: false,
+    sendsOnlyHashPrefix: true,
     responsePadding: true,
     storesResults: false,
+    requestMethod: "GET",
+    credentials: "omit",
+    cache: "no-store",
   };
 }
 

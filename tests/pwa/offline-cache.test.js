@@ -55,7 +55,8 @@ describe("Offline PWA regression tests", () => {
       "Password Security Toolkit",
     );
 
-    expect(manifest.start_url).toBe("/");
+    expect(manifest.start_url).toBe("/Pass/");
+    expect(manifest.scope).toBe("/Pass/");
     expect(manifest.display).toBe("standalone");
     expect(manifest.icons.length).toBeGreaterThan(0);
   });

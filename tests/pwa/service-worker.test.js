@@ -51,17 +51,17 @@ describe("Service worker regression tests", () => {
 
   it("contains an offline fallback", () => {
     expect(serviceWorkerSource).toContain(
-      "/offline.html",
+      "`${BASE_PATH}offline.html`",
     );
   });
 
   it("contains the app shell", () => {
     expect(serviceWorkerSource).toContain(
-      "/index.html",
+      "`${BASE_PATH}index.html`",
     );
 
     expect(serviceWorkerSource).toContain(
-      "/manifest.webmanifest",
+      "`${BASE_PATH}manifest.webmanifest`",
     );
   });
 });

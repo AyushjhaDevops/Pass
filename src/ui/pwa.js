@@ -1,4 +1,5 @@
-const SERVICE_WORKER_PATH = "/sw.js";
+const SERVICE_WORKER_PATH =
+  `${import.meta.env.BASE_URL}sw.js`;
 
 let deferredInstallPrompt = null;
 let updateRegistration = null;
@@ -8,16 +9,13 @@ function getElement(selector) {
 }
 
 function createPwaContainer() {
-  let container = getElement(
-    "#pwaContainer",
-  );
+  let container = getElement("#pwaContainer");
 
   if (container) {
     return container;
   }
 
   container = document.createElement("div");
-
   container.id = "pwaContainer";
   container.className = "pwa-container";
 
@@ -29,19 +27,16 @@ function createPwaContainer() {
 function createOfflineIndicator() {
   const container = createPwaContainer();
 
-  let indicator = getElement(
-    "#pwaOfflineIndicator",
-  );
+  let indicator = getElement("#pwaOfflineIndicator");
 
   if (indicator) {
     return indicator;
   }
 
   indicator = document.createElement("div");
-
   indicator.id = "pwaOfflineIndicator";
-  indicator.className =
-    "pwa-status pwa-status-offline";
+  indicator.className = "pwa-status pwa-status-offline";
+
   indicator.setAttribute("role", "status");
   indicator.setAttribute("aria-live", "polite");
   indicator.setAttribute("aria-atomic", "true");
@@ -116,9 +111,9 @@ function createInstallPrompt() {
   }
 
   installCard = document.createElement("div");
-
   installCard.id = "pwaInstallCard";
   installCard.className = "pwa-install-card";
+  installCard.hidden = true;
 
   installCard.innerHTML = `
     <div class="pwa-install-content">
@@ -219,9 +214,12 @@ async function handleInstall() {
     card.hidden = true;
   }
 
-  await promptEvent.prompt();
-
-  await promptEvent.userChoice;
+  try {
+    await promptEvent.prompt();
+    await promptEvent.userChoice;
+  } catch {
+    // Installation was cancelled or unavailable.
+  }
 }
 
 function initializeInstallPrompt() {
@@ -257,9 +255,8 @@ function initializeInstallPrompt() {
 }
 
 function showPwaNotification(message) {
-  const existingNotification = getElement(
-    "#pwaNotification",
-  );
+  const existingNotification =
+    getElement("#pwaNotification");
 
   existingNotification?.remove();
 
@@ -269,10 +266,12 @@ function showPwaNotification(message) {
   notification.id = "pwaNotification";
   notification.className =
     "pwa-notification";
+
   notification.setAttribute(
     "role",
     "status",
   );
+
   notification.setAttribute(
     "aria-live",
     "polite",
@@ -307,9 +306,9 @@ function createUpdatePrompt() {
   }
 
   updateCard = document.createElement("div");
-
   updateCard.id = "pwaUpdateCard";
   updateCard.className = "pwa-update-card";
+  updateCard.hidden = true;
 
   updateCard.innerHTML = `
     <div>
@@ -384,7 +383,6 @@ function showUpdatePrompt() {
 function updateServiceWorker() {
   if (!updateRegistration?.waiting) {
     window.location.reload();
-
     return;
   }
 
@@ -421,7 +419,7 @@ function initializeServiceWorker() {
           await navigator.serviceWorker.register(
             SERVICE_WORKER_PATH,
             {
-              scope: "/",
+              scope: import.meta.env.BASE_URL,
             },
           );
 
@@ -467,7 +465,9 @@ function initializeServiceWorker() {
           },
         );
       } catch {
-        console.warn("Service Worker registration failed.");
+        console.warn(
+          "Service Worker registration failed.",
+        );
       }
     },
   );
@@ -490,7 +490,8 @@ export function isOnline() {
 
 export function getInstallPromptState() {
   return {
-    available: deferredInstallPrompt !== null,
+    available:
+      deferredInstallPrompt !== null,
   };
 }
 

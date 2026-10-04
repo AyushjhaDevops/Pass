@@ -18,20 +18,7 @@ describe("PWA regression tests", () => {
     );
   });
 
-  it("references the service worker script", () => {
-    /*
-     * The service worker path is intentionally built
-     * from Vite's BASE_URL so the application works
-     * both locally and under the GitHub Pages
-     * /Pass/ project path.
-     *
-     * Example:
-     *
-     *   local:       /sw.js
-     *   GitHub Pages: /Pass/sw.js
-     *
-     * Do not require a specific quote style here.
-     */
+  it("references the service worker script using the Vite base path", () => {
     expect(pwaSource).toContain(
       "import.meta.env.BASE_URL",
     );
@@ -46,6 +33,12 @@ describe("PWA regression tests", () => {
 
     expect(pwaSource).toContain(
       "navigator.serviceWorker.register",
+    );
+  });
+
+  it("uses the base path for the service worker scope", () => {
+    expect(pwaSource).toContain(
+      "scope: import.meta.env.BASE_URL",
     );
   });
 

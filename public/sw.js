@@ -7,13 +7,16 @@ const APP_CACHE =
 const RUNTIME_CACHE =
   `${CACHE_VERSION}-runtime`;
 
+const BASE_PATH =
+  new URL(".", self.location.href).pathname;
+
 const APP_SHELL = [
-  "/",
-  "/index.html",
-  "/offline.html",
-  "/manifest.webmanifest",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
+  BASE_PATH,
+  `${BASE_PATH}index.html`,
+  `${BASE_PATH}offline.html`,
+  `${BASE_PATH}manifest.webmanifest`,
+  `${BASE_PATH}icons/icon-192.png`,
+  `${BASE_PATH}icons/icon-512.png`,
 ];
 
 self.addEventListener(
@@ -88,6 +91,14 @@ self.addEventListener(
       return;
     }
 
+    if (
+      !requestUrl.pathname.startsWith(
+        BASE_PATH,
+      )
+    ) {
+      return;
+    }
+
     /*
      * Never intentionally cache requests
      * containing query parameters that could
@@ -141,7 +152,7 @@ async function handleNavigationRequest(
 
     const cachedIndex =
       await caches.match(
-        "/index.html",
+        `${BASE_PATH}index.html`,
       );
 
     if (cachedIndex) {
@@ -150,7 +161,7 @@ async function handleNavigationRequest(
 
     const offlinePage =
       await caches.match(
-        "/offline.html",
+        `${BASE_PATH}offline.html`,
       );
 
     if (offlinePage) {

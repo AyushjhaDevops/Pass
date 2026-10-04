@@ -1,5 +1,5 @@
-const SENSITIVE_KEY_PATTERN =
-  /(password|passphrase|pin|secret|credential|token|private.?key|auth)/i;
+const SENSITIVE_STORAGE_KEY_PATTERN =
+  /(password|passphrase|pin|secret|credential|token|private.?key|auth|hash|breach)/i;
 
 const EXTERNAL_SCRIPT_PATTERN =
   /^https?:\/\//i;
@@ -97,7 +97,7 @@ function findSensitiveStorageKeys() {
 
           if (
             key &&
-            SENSITIVE_KEY_PATTERN.test(key)
+            SENSITIVE_STORAGE_KEY_PATTERN.test(key)
           ) {
             findings.push({
               storage: storageName,

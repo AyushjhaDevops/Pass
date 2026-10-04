@@ -621,14 +621,10 @@ function generateNewPassword() {
     );
 
     return password;
-  } catch (error) {
-    console.error(
-      "Password generation failed:",
-      error,
-    );
+  } catch {
+    console.error("Password generation failed.");
 
     showNotification(
-      error.message ||
         "Unable to generate password.",
       "error",
     );
@@ -672,11 +668,8 @@ async function copyGeneratedPassword() {
       "Password copied to clipboard.",
       "success",
     );
-  } catch (error) {
-    console.error(
-      "Password copy failed:",
-      error,
-    );
+  } catch {
+    console.error("Password copy failed.");
 
     showNotification(
       "Unable to copy password.",
@@ -762,14 +755,10 @@ function generateNewPassphrase() {
     );
 
     return passphrase;
-  } catch (error) {
-    console.error(
-      "Passphrase generation failed:",
-      error,
-    );
+  } catch {
+    console.error("Passphrase generation failed.");
 
     showNotification(
-      error.message ||
         "Unable to generate passphrase.",
       "error",
     );
@@ -813,10 +802,10 @@ async function copyGeneratedPassphrase() {
       "Passphrase copied to clipboard.",
       "success",
     );
-  } catch (error) {
+  } catch {
     console.error(
       "Passphrase copy failed:",
-      error,
+      
     );
 
     showNotification(

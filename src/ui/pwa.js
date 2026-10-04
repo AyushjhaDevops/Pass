@@ -466,11 +466,8 @@ function initializeServiceWorker() {
             once: true,
           },
         );
-      } catch (error) {
-        console.warn(
-          "Service Worker registration failed:",
-          error,
-        );
+      } catch {
+        console.warn("Service Worker registration failed.");
       }
     },
   );

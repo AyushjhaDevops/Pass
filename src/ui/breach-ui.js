@@ -7,6 +7,11 @@ import {
   showNotification,
 } from "./notifications.js";
 
+import {
+  createElement,
+  appendText,
+} from "../modules/dom-security.js";
+
 let initialized = false;
 
 function getElement(selector) {
@@ -189,10 +194,7 @@ async function performBreachCheck() {
         : "Lookup completed. No match found.",
     );
   } catch (error) {
-    console.error(
-      "Breach lookup failed:",
-      error,
-    );
+    console.error("Breach lookup failed.");
 
     setText(
       getStatusElement(),
@@ -231,141 +233,194 @@ async function performBreachCheck() {
 }
 
 function createBreachSection() {
-  if (
-    document.querySelector(
-      "#breachCheckSection",
-    )
-  ) {
+  if (document.querySelector("#breachCheckSection")) {
     return;
   }
 
-  const main =
-    document.querySelector("main");
+  const main = document.querySelector("main");
 
   if (!main) {
     return;
   }
 
-  const section =
-    document.createElement("section");
+  const section = createElement("section", {
+    id: "breachCheckSection",
+    className: "card breach-check-section",
+  });
 
-  section.id =
-    "breachCheckSection";
+  const header = createElement("div", {
+    className: "section-header",
+  });
 
-  section.className =
-    "card breach-check-section";
+  const headerContent = createElement("div");
 
-  section.innerHTML = `
-    <div class="section-header">
-      <div>
-        <span class="section-eyebrow">
-          PHASE 13
-        </span>
+  appendText(
+    headerContent,
+    "span",
+    "PHASE 13",
+    {
+      className: "section-eyebrow",
+    },
+  );
 
-        <h2>
-          Privacy-Preserving Breach Check
-        </h2>
+  appendText(
+    headerContent,
+    "h2",
+    "Privacy-Preserving Breach Check",
+  );
 
-        <p>
-          Check whether a password appears in
-          known breach data without sending the
-          password or full hash.
-        </p>
-      </div>
-    </div>
+  appendText(
+    headerContent,
+    "p",
+    "Check whether a password appears in known breach data without sending the password or full hash.",
+  );
 
-    <div class="breach-security-notice">
-      <strong>
-        Privacy protection
-      </strong>
+  header.appendChild(headerContent);
+  section.appendChild(header);
 
-      <p>
-        Your password is hashed locally using
-        Web Crypto. Only the first five characters
-        of the SHA-1 hash are sent to the breach
-        service. The exact comparison happens
-        inside your browser.
-      </p>
-    </div>
+  const securityNotice = createElement("div", {
+    className: "breach-security-notice",
+  });
 
-    <label class="breach-consent">
-      <input
-        id="breachCheckConsent"
-        type="checkbox"
-      />
+  appendText(
+    securityNotice,
+    "strong",
+    "Privacy protection",
+  );
 
-      <span>
-        <strong>
-          Allow a one-time network lookup
-        </strong>
+  appendText(
+    securityNotice,
+    "p",
+    "Your password is hashed locally using Web Crypto. Only the first five characters of the SHA-1 hash are sent to the breach service. The exact comparison happens inside your browser.",
+  );
 
-        <small>
-          This is disabled by default. Enabling
-          it allows this password to be checked
-          against the external breach service.
-        </small>
-      </span>
-    </label>
+  section.appendChild(securityNotice);
 
-    <div class="breach-actions">
-      <button
-        id="checkBreachButton"
-        class="button button-primary"
-        type="button"
-      >
-        Check for Breach
-      </button>
-    </div>
+  const consentLabel = createElement("label", {
+    className: "breach-consent",
+  });
 
-    <div
-      id="breachCheckStatus"
-      class="breach-status"
-      role="status"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      No breach lookup performed.
-    </div>
+  const consentInput = createElement("input", {
+    id: "breachCheckConsent",
+    attributes: {
+      type: "checkbox",
+    },
+  });
 
-    <div class="breach-technical-details">
-      <div>
-        <span>
-          Hash prefix sent
-        </span>
+  const consentText = createElement("span");
 
-        <strong id="breachHashPrefix">
-          Not sent yet
-        </strong>
-      </div>
+  appendText(
+    consentText,
+    "strong",
+    "Allow a one-time network lookup",
+  );
 
-      <div>
-        <span>
-          Full password sent
-        </span>
+  appendText(
+    consentText,
+    "small",
+    "This is disabled by default. Enabling it allows this password to be checked against the external breach service.",
+  );
 
-        <strong>
-          Never
-        </strong>
-      </div>
+  consentLabel.appendChild(consentInput);
+  consentLabel.appendChild(consentText);
 
-      <div>
-        <span>
-          Full hash sent
-        </span>
+  section.appendChild(consentLabel);
 
-        <strong>
-          Never
-        </strong>
-      </div>
-    </div>
+  const actions = createElement("div", {
+    className: "breach-actions",
+  });
 
-    <div
-      id="breachCheckResult"
-      class="breach-result"
-      role="alert"
-      hidden
-    ></div>
-  `;
+  const checkButton = createElement("button", {
+    id: "checkBreachButton",
+    className: "button button-primary",
+    textContent: "Check for Breach",
+    attributes: {
+      type: "button",
+    },
+  });
+
+  actions.appendChild(checkButton);
+  section.appendChild(actions);
+
+  const status = createElement("div", {
+    id: "breachCheckStatus",
+    className: "breach-status",
+    textContent: "No breach lookup performed.",
+    attributes: {
+      role: "status",
+      "aria-live": "polite",
+      "aria-atomic": "true",
+    },
+  });
+
+  section.appendChild(status);
+
+  const technicalDetails = createElement("div", {
+    className: "breach-technical-details",
+  });
+
+  const prefixContainer = createElement("div");
+
+  appendText(
+    prefixContainer,
+    "span",
+    "Hash prefix sent",
+  );
+
+  appendText(
+    prefixContainer,
+    "strong",
+    "Not sent yet",
+    {
+      id: "breachHashPrefix",
+    },
+  );
+
+  const passwordContainer = createElement("div");
+
+  appendText(
+    passwordContainer,
+    "span",
+    "Full password sent",
+  );
+
+  appendText(
+    passwordContainer,
+    "strong",
+    "Never",
+  );
+
+  const hashContainer = createElement("div");
+
+  appendText(
+    hashContainer,
+    "span",
+    "Full hash sent",
+  );
+
+  appendText(
+    hashContainer,
+    "strong",
+    "Never",
+  );
+
+  technicalDetails.appendChild(prefixContainer);
+  technicalDetails.appendChild(passwordContainer);
+  technicalDetails.appendChild(hashContainer);
+
+  section.appendChild(technicalDetails);
+
+  const result = createElement("div", {
+    id: "breachCheckResult",
+    className: "breach-result",
+    attributes: {
+      role: "alert",
+    },
+  });
+
+  result.hidden = true;
+
+  section.appendChild(result);
 
   main.appendChild(section);
 }

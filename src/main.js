@@ -5,6 +5,9 @@ import "./styles/pin.css";
 import "./styles/privacy.css";
 import "./styles/accessibility.css";
 import "./styles/pwa.css";
+import "./styles/security.css";
+import "./styles/breach.css";
+
 import {
   initializePinUI,
 } from "./ui/pin-ui.js";
@@ -46,6 +49,10 @@ import {
 import {
   initializeSecurityUI,
 } from "./ui/security.js";
+
+import {
+  initializeBreachUI,
+} from "./ui/breach-ui.js";
 
 // ============================================================
 // THEME
@@ -1074,3 +1081,4 @@ function initializeApplication() {
 // ============================================================
 
 initializeApplication();
+initializeBreachUI();
